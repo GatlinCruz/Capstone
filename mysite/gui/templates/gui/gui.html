@@ -1,0 +1,8 @@
+{% extends "gui/base.html" %}
+    {% block content %}
+        {% for graph in graphs %}
+            <h1>{{graph.num_hosts}}</h1>
+            <h1>{{graph.num_clients}}</h1>
+        {% endfor %}
+    {% endblock content %}
+
