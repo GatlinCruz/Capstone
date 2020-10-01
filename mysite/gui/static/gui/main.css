@@ -82,3 +82,23 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.btn-group button {
+  background: #333333; /* Green background */
+  border: 1px black; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  margin: 5px;
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%;
+  display: inline-block;
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
