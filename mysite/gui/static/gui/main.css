@@ -102,3 +102,17 @@ a.article-title:hover {
 .btn-group button:hover {
   background-color: #3e8e41;
 }
+
+.btn button {
+  background: #333333; /* Green background */
+  border: 1px black; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  margin: 5px;
+  cursor: pointer; /* Pointer/hand icon */
+  width: 100%;
+}
+
+.btn button:hover {
+  background-color: #3e8e41;
+}

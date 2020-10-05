@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,25 +28,24 @@
 
 <main role="main" class="container">
   <div class="row">
-    <div class="col-md-8">
-      {% block content %}{% endblock %}
-    </div>
     <div class="col-md-4">
       <div class="content-section">
         <h3>Setup Menu</h3>
         <p class='text-muted'>Enter parameters for setting up the network.</p>
           <div class="btn-group" style="display: inline-block">
-            <button>Add Host</button>
-            <button>Add Switch</button>
-            <button>Add Controller</button>
+            <form action="#" method="get">
+                <label>Number of Hosts: <input type="text" value="2" id="host" name="host" size="3"/></label>
+                <label>Number of Switches: <input type="text" value="1" id="switch" name="switch" size="3"/></label>
+                <label>Number of Controllers: <input type="text" value="1" id="controller" name="controller" size="3"/></label>
+                <label>Link Nodes: <input type="text" value="h1, s1; h2, s1" id="link" name="link" /></label>
+                <input type="submit" value="Make Graph" name="graphbtn">
+                <input type="submit" value="Reset Graph" name="resetbtn">
+            </form>
           </div>
-          <form action="/my-handling-form-page" method="post">
-            <li>
-                <label for="links">Link Nodes:</label>
-                <input type="text" id="links" name="link_field" value="(h1, s1)">
-            </li>
-          </form>
       </div>
+    </div>
+      <div class="col-md-8">
+      {% block content %}{% endblock %}
     </div>
   </div>
 </main>
