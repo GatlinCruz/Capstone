@@ -38,17 +38,22 @@
                 <label>Number of Switches: <input type="text" value="1" id="switch" name="switch" size="3"/></label>
                 <label>Number of Controllers: <input type="text" value="1" id="controller" name="controller" size="3"/></label>
                 <label>Link Nodes: <input type="text" value="h1, s1; h2, s1" id="link" name="link" /></label>
-                <input type="submit" value="Make Graph" name="graphbtn">
-                <input type="submit" value="Reset Graph" name="resetbtn">
+                <input type="submit" value="Set Parameters" name="setbtn">
+                <input type="submit" value="Reset Parameters" name="resetbtn">
+                <div>
+                    <input type="submit" value="Generate Graph" name="graphbtn">
+                </div>
             </form>
           </div>
       </div>
     </div>
-      <div class="col-md-8">
-      {% block content %}{% endblock %}
+    <div class="col-md-8">
+        {% block content %}{% endblock %}
     </div>
   </div>
 </main>
+
+
 
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
