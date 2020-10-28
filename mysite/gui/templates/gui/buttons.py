@@ -153,6 +153,11 @@ def make_file(path):
     new_file.write("\t#Add switches\n" + switch_text + "\n")
     new_file.write("\t#Add controllers\n" + controller_text)
 
+    new_file.write("net.start()")
+    new_file.write("CLI(net)")
+    new_file.write(("net.stop()"))
+
+
 
 
 def main():
