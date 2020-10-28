@@ -6,7 +6,12 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+###### For Windows
+#spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
+
+###### For Mac
 spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "/gui/templates/gui/buttons.py")
+
 buttons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(buttons)
 
@@ -48,7 +53,7 @@ def home(request):
     elif request.GET.get('runbtn'):
         buttons.make_file(graph_info)
 
-    return render(request, 'gui/gui.html', context)
+    return render(request, 'gui/base.html', context)
 
 
 def graph(request):

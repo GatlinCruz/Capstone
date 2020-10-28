@@ -3,11 +3,13 @@ import networkx as nx
 import numpy as np
 from pathlib import Path
 import os
+import time
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
 
 np.random.seed(1)
+filename = ''
 
 
 def make_graph(hosts, switches, controllers, links):
@@ -79,7 +81,10 @@ def make_graph(hosts, switches, controllers, links):
                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
 
-    fig.write_html(PATH + 'figure.html')
+    if os.path.exists(PATH + 'figure.html'):
+        fig.write_html(PATH + ('figure_{}.html'.format(int(time.time()))))
+    else:
+        fig.write_html(PATH + 'figure.html')
 
     # pio.write_html(fig, file=PATH + 'figure.html', auto_open=False)
 
@@ -117,22 +122,55 @@ def run_mininet(path):
     p = os.system('echo %s|sudo -S %s' % (sudo_pw, command))
 
 
-def main():
-    custom_path = "/home/mininet/mininet/custom/"
-    base_file = open(custom_path + "base_file.py", "a")
+
+
+def make_file(path):
+
+    new_file = open(path + "file.py", "w")
+    new_file.write("from mininet.net import Mininet\n")
+    new_file.write("from mininet.cli import CLI\n")
+
+    new_file.write("net = Mininet()")
+
+
 
     host_text = ""
     switch_text = ""
-    for host in range(4):  # graph.get('num_hosts')
-        host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
+    controller_text = ""
+    for host in range(3):
+        host_text += "\th" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
     for switch in range(2):  # graph.get('num_switches')
-        switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
+        switch_text += "\ts" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
+    for controller in range(2):  # graph.get('num_switches')
+        controller_text += "\ts" + str(controller + 1) + " = net.addController( 'c" + str(switch + 1) + "' )\n"
 
     print(host_text)
     print(switch_text)
+    print(controller_text)
 
-    base_file.write("\t#Add hosts\n" + host_text + "\n")
-    base_file.write("\t#Add switches\n" + switch_text)
+    new_file.write("\t#Add hosts\n" + host_text + "\n")
+    new_file.write("\t#Add switches\n" + switch_text + "\n")
+    new_file.write("\t#Add controllers\n" + controller_text)
+
+
+
+def main():
+    custom_path = "/home/mininet/mininet/custom/"
+    # base_file = open(custom_path + "base_file.py", "a")
+    #
+    # host_text = ""
+    # switch_text = ""
+    # for host in range(4):  # graph.get('num_hosts')
+    #     host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
+    # for switch in range(2):  # graph.get('num_switches')
+    #     switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
+    #
+    # print(host_text)
+    # print(switch_text)
+    #
+    # base_file.write("\t#Add hosts\n" + host_text + "\n")
+    # base_file.write("\t#Add switches\n" + switch_text)
+    make_file("/home/")
 
     run_mininet(custom_path)
 

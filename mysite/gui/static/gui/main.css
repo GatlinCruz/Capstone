@@ -116,3 +116,7 @@ a.article-title:hover {
 .btn button:hover {
   background-color: #3e8e41;
 }
+
+#iframe{
+    position: right;
+}
