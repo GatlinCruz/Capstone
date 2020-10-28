@@ -89,3 +89,53 @@ def reset_graph(graph):
     graph['num_switches'] = 0
     graph['num_controllers'] = 0
     graph['links'] = []
+
+
+def make_file(graph):
+    custom_path = "/home/mininet/mininet/custom/"
+    base_file = open(custom_path + "base_file.py", "a")
+
+    host_text = ""
+    switch_text = ""
+    for host in range(graph.get('num_hosts')):
+        host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
+    for switch in range(graph.get('num_switches')):
+        switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
+
+    # for controller in range(graph.get('num_controllers')):
+    #    print("c" + str(controller + 1) + " = self.addController( 'h" + str(controller + 1) + "' )")
+
+    base_file.write("\t#Add hosts\n" + host_text + "\n")
+    base_file.write("\t#Add switches\n" + switch_text + "\n")
+
+    run_mininet(custom_path)
+
+
+def run_mininet(path):
+    sudo_pw = "mininet"
+    command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
+    p = os.system('echo %s|sudo -S %s' % (sudo_pw, command))
+
+
+def main():
+    custom_path = "/home/mininet/mininet/custom/"
+    base_file = open(custom_path + "base_file.py", "a")
+
+    host_text = ""
+    switch_text = ""
+    for host in range(4):  # graph.get('num_hosts')
+        host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
+    for switch in range(2):  # graph.get('num_switches')
+        switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
+
+    print(host_text)
+    print(switch_text)
+
+    base_file.write("\t#Add hosts\n" + host_text + "\n")
+    base_file.write("\t#Add switches\n" + switch_text)
+
+    run_mininet(custom_path)
+
+
+if __name__ == '__main__':
+    main()

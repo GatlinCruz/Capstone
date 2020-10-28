@@ -45,6 +45,9 @@ def home(request):
     elif request.GET.get('resetbtn'):
         buttons.reset_graph(graph_info)
 
+    elif request.GET.get('runbtn'):
+        buttons.make_file(graph_info)
+
     return render(request, 'gui/gui.html', context)
 
 
