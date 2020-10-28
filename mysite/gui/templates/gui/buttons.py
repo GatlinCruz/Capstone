@@ -119,7 +119,7 @@ def make_file(graph):
 def run_mininet(path):
     sudo_pw = "mininet"
     #command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
-    command = "gnome-terminal python2 " + path + "new_file.py"
+    command = "gnome-terminal -- python2 " + path + "new_file.py"
     p = os.system('echo %s|sudo -S %s' % (sudo_pw, command))
 
 
@@ -127,7 +127,7 @@ def run_mininet(path):
 
 def make_file(path):
 
-    new_file = open(path + "new_file.py", "w")
+    new_file = open(path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
 
@@ -139,23 +139,23 @@ def make_file(path):
     switch_text = ""
     controller_text = ""
     for host in range(3):
-        host_text += "\th" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
+        host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
     for switch in range(2):  # graph.get('num_switches')
-        switch_text += "\ts" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
+        switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
     for controller in range(2):  # graph.get('num_switches')
-        controller_text += "\ts" + str(controller + 1) + " = net.addController( 'c" + str(switch + 1) + "' )\n"
+        controller_text += "s" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
 
     print(host_text)
     print(switch_text)
     print(controller_text)
 
-    new_file.write("\t#Add hosts\n" + host_text + "\n")
-    new_file.write("\t#Add switches\n" + switch_text + "\n")
-    new_file.write("\t#Add controllers\n" + controller_text)
+    new_file.write("#Add hosts\n" + host_text + "\n")
+    new_file.write("#Add switches\n" + switch_text + "\n")
+    new_file.write("#Add controllers\n" + controller_text + "\n")
 
-    new_file.write("net.start()")
-    new_file.write("CLI(net)")
-    new_file.write(("net.stop()"))
+    new_file.write("net.start()\n")
+    new_file.write("CLI(net)\n")
+    new_file.write("net.stop()\n")
 
 
 
@@ -177,7 +177,7 @@ def main():
     #
     # base_file.write("\t#Add hosts\n" + host_text + "\n")
     # base_file.write("\t#Add switches\n" + switch_text)
-    other_path = "/home/Desktop/"
+    other_path = "/home/mininet/Desktop/"
     make_file(other_path)
 
     run_mininet(other_path)
