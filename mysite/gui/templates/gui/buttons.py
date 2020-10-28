@@ -118,7 +118,8 @@ def make_file(graph):
 
 def run_mininet(path):
     sudo_pw = "mininet"
-    command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
+    #command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
+    command = "gnome-terminal python2 " + path + "new_file.py"
     p = os.system('echo %s|sudo -S %s' % (sudo_pw, command))
 
 
@@ -126,7 +127,7 @@ def run_mininet(path):
 
 def make_file(path):
 
-    new_file = open(path + "file.py", "w")
+    new_file = open(path + "new_file.py", "w")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
 
@@ -156,6 +157,7 @@ def make_file(path):
 
 def main():
     custom_path = "/home/mininet/mininet/custom/"
+
     # base_file = open(custom_path + "base_file.py", "a")
     #
     # host_text = ""
@@ -170,9 +172,10 @@ def main():
     #
     # base_file.write("\t#Add hosts\n" + host_text + "\n")
     # base_file.write("\t#Add switches\n" + switch_text)
-    make_file("/home/")
+    other_path = "/home/Desktop/"
+    make_file(other_path)
 
-    run_mininet(custom_path)
+    run_mininet(other_path)
 
 
 if __name__ == '__main__':
