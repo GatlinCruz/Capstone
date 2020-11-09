@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'gui/main.css' %}">
+    <title>Capstone</title>
+</head>
+<body>
+    <div id="forms" style="display:inline-block;">
+    <form method="POST" role="form" name="thisform" style="width:200px; padding: 20px; background-color:#fe4">
+        {% csrf_token %}
+        <div class="hosts">
+               <label>Enter number of hosts:</label>
+               <input type="text"  name="num_hosts" class="hosts_text" value={{num_hosts}} >
+        </div>
+
+        <div class="switches">
+               <label>Enter number of switches:</label>
+               <input type="text"  name="num_switches" class="switches_text" value={{num_switches}} >
+        </div>
+
+        <div class="controllers">
+               <label>Enter number of controllers:</label>
+               <input type="text"  name="num_controllers" class="controllers_text" value={{num_controllers}} >
+        </div>
+
+        <div class="link">
+               <label>Enter link and press add:</label>
+               <input type="text"  name="link1" class="link1_text" value="{{link1}}" >
+               <input type="text"  name="link2" class="link2_text" value="{{link2}}" >
+               <input type="submit" name= "addbtn" value="Add"/>
+        </div>
+
+
+
+         <ul class="list-inline pull-right">
+             <input type="submit" name= "applybtn" value="apply"/>
+         </ul>
+
+        <ul class="list-inline pull-right" >
+            <input type="submit" name="printbtn" value="Print">
+        </ul>
+
+        <ul class="list-inline pull-right" >
+            <input type="submit" name="graphbtn" value="Graph">
+        </ul>
+
+
+
+    </form>
+    </div>
+    <div id="frame" style="display:inline-block;">
+    <iframe srcdoc="{{first_name}}" width="100%" height="800" style="width:500px; height:400px"> </iframe>
+    </div>
+</body>
+</html>

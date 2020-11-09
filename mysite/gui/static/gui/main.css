@@ -120,3 +120,7 @@ a.article-title:hover {
 #iframe{
     position: right;
 }
+
+form {
+    background-color: #ffc;
+}
