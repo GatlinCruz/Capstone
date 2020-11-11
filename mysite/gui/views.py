@@ -21,8 +21,13 @@ graph_info = {
         'links': []
         }
 
+extra_text = {
+    'ping': ""
+}
+
 context = {
-        'graph': graph_info
+        'graph': graph_info,
+        'output': extra_text
     }
 
 
@@ -49,10 +54,10 @@ def home(request):
     elif request.GET.get('resetbtn'):
         buttons.reset_graph(graph_info)
 
-    elif request.GET.get('runbtn'):
-        buttons.make_file(graph_info)
+    elif request.GET.get('pingbtn'):
+        buttons.make_file(graph_info, extra_text)
 
-    return render(request, 'gui/base.html', context)
+    return render(request, 'gui/gui.html', context)
 
 
 def graph(request):
