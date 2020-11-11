@@ -156,7 +156,7 @@ def make_file(graph, extra):
 
 
 def run_mininet(path, extra):
-    sudo_pw = "mininet"
+    # sudo_pw = "mininet"
     # command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
     # command = "gnome-terminal -- python2 " + path + "new_file.py"
     # command = "python2 " + path + "new_file.py"
@@ -167,13 +167,13 @@ def run_mininet(path, extra):
     command = "python2 " + path + "new_file.py"
     command = command.split()
 
-    cmd1 = subprocess.Popen(['echo', sudo_pw], stdout=subprocess.PIPE)
-    cmd2 = subprocess.Popen(['sudo', '-S'] + command, stdin=cmd1.stdout,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-    outs, errors = cmd2.communicate()
+    # cmd1 = subprocess.Popen(['echo', sudo_pw], stdout=subprocess.PIPE)
+    # cmd2 = subprocess.Popen(['sudo', '-S'] + command, stdin=cmd1.stdout,
+                            # stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    cmd = subprocess.Popen(['sudo'] + command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    outs, errors = cmd.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
-    extra['ping'] = errors
+    extra['ping'] = outs
 
 
 def main():
