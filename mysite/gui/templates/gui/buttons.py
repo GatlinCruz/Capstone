@@ -172,14 +172,16 @@ def run_mininet(extra):
     outs = ""
     errors = ""
 
-    while timeout < 16 and outs == "" and errors == "":
-        cmd1 = subprocess.Popen(['echo', sudo_pw], stdout=subprocess.PIPE)
-        cmd2 = subprocess.Popen(['sudo', '-S'] + command, stdin=cmd1.stdout,
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        # cmd = subprocess.Popen(['sudo'] + command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-        outs, errors = cmd2.communicate()
-        print("outs" + outs + "\nerrors: " + errors + "end")
-        timeout += 1
+    # while timeout < 16 and outs == "" and errors == "":
+
+    cmd1 = subprocess.Popen(['echo', sudo_pw], stdout=subprocess.PIPE)
+    cmd2 = subprocess.Popen(['sudo', '-S'] + command, stdin=cmd1.stdout,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    outs, errors = cmd2.communicate()
+    print("outs" + outs + "\nerrors: " + errors + "end")
+    timeout += 1
+
+    errors.removeprefix("[sudo] password for mininet: ")
 
     extra['ping'] = errors
 
