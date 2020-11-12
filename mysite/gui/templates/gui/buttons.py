@@ -96,26 +96,6 @@ def reset_graph(graph):
     graph['links'] = []
 
 
-# def make_file(graph):
-#     custom_path = "/home/mininet/mininet/custom/"
-#     base_file = open(custom_path + "base_file.py", "a")
-#
-#     host_text = ""
-#     switch_text = ""
-#     for host in range(graph.get('num_hosts')):
-#         host_text += "\th" + str(host + 1) + " = self.addHost( 'h" + str(host + 1) + "' )\n"
-#     for switch in range(graph.get('num_switches')):
-#         switch_text += "\ts" + str(switch + 1) + " = self.addSwitch( 's" + str(switch + 1) + "' )\n"
-#
-#     # for controller in range(graph.get('num_controllers')):
-#     #    print("c" + str(controller + 1) + " = self.addController( 'h" + str(controller + 1) + "' )")
-#
-#     base_file.write("\t#Add hosts\n" + host_text + "\n")
-#     base_file.write("\t#Add switches\n" + switch_text + "\n")
-#
-#     run_mininet(custom_path)
-
-
 def make_file(graph):
     other_path = "/home/mininet/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
@@ -127,6 +107,7 @@ def make_file(graph):
     switch_text = ""
     controller_text = ""
     link_text = ""
+
     for host in range(graph.get('num_hosts')):
         host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
     for switch in range(graph.get('num_switches')):
@@ -148,11 +129,8 @@ def make_file(graph):
     new_file.write("#Add links\n" + link_text + "\n")
 
     new_file.write("\nnet.start()\n")
-    # new_file.write("CLI(net)\n")
     new_file.write("net.pingAll()\n")
     new_file.write("net.stop()\n")
-
-    # run_mininet(other_path, extra)
 
 
 def run_mininet(extra):
@@ -164,24 +142,16 @@ def run_mininet(extra):
     # p = os.popen('echo %s|sudo -S %s' % (sudo_pw, command))
     # print(p.read())
 
-    # print(str(p) + "% Dropped")
     command = "python2 " + path + "new_file.py"
     command = command.split()
-
-    timeout = 0
-    outs = ""
-    errors = ""
-
-    # while timeout < 16 and outs == "" and errors == "":
 
     cmd1 = subprocess.Popen(['echo', sudo_pw], stdout=subprocess.PIPE)
     cmd2 = subprocess.Popen(['sudo', '-S'] + command, stdin=cmd1.stdout,
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
-    timeout += 1
 
-    errors.removeprefix("[sudo] password for mininet: ")
+    errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
 
