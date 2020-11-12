@@ -116,47 +116,48 @@ def reset_graph(graph):
 #     run_mininet(custom_path)
 
 
-def make_file(graph, extra):
+def make_file(graph):
     other_path = "/home/mininet/Desktop/"
-    # new_file = open(other_path + "new_file.py", "w+")
-    # new_file.write("from mininet.net import Mininet\n")
-    # new_file.write("from mininet.cli import CLI\n")
-    # new_file.write("net = Mininet()\n")
-    #
-    # host_text = ""
-    # switch_text = ""
-    # controller_text = ""
-    # link_text = ""
-    # for host in range(graph.get('num_hosts')):
-    #     host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
-    # for switch in range(graph.get('num_switches')):
-    #     switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
-    # for controller in range(graph.get('num_controllers')):
-    #     controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
-    # for link in range(len(graph.get('links'))):
-    #     link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
-    #                  + "', '" + str(graph.get('links')[link][1]) + "' )\n"
-    #
-    # print(host_text)
-    # print(switch_text)
-    # print(controller_text)
-    # print(link_text)
-    #
-    # new_file.write("#Add hosts\n" + host_text + "\n")
-    # new_file.write("#Add switches\n" + switch_text + "\n")
-    # new_file.write("#Add controllers\n" + controller_text + "\n")
-    # new_file.write("#Add links\n" + link_text + "\n")
-    #
-    # new_file.write("\nnet.start()\n")
-    # # new_file.write("CLI(net)\n")
-    # new_file.write("net.pingAll()\n")
-    # new_file.write("net.stop()\n")
+    new_file = open(other_path + "new_file.py", "w+")
+    new_file.write("from mininet.net import Mininet\n")
+    new_file.write("from mininet.cli import CLI\n")
+    new_file.write("net = Mininet()\n")
 
-    run_mininet(other_path, extra)
+    host_text = ""
+    switch_text = ""
+    controller_text = ""
+    link_text = ""
+    for host in range(graph.get('num_hosts')):
+        host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
+    for switch in range(graph.get('num_switches')):
+        switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
+    for controller in range(graph.get('num_controllers')):
+        controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
+    for link in range(len(graph.get('links'))):
+        link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
+                     + "', '" + str(graph.get('links')[link][1]) + "' )\n"
+
+    print(host_text)
+    print(switch_text)
+    print(controller_text)
+    print(link_text)
+
+    new_file.write("#Add hosts\n" + host_text + "\n")
+    new_file.write("#Add switches\n" + switch_text + "\n")
+    new_file.write("#Add controllers\n" + controller_text + "\n")
+    new_file.write("#Add links\n" + link_text + "\n")
+
+    new_file.write("\nnet.start()\n")
+    # new_file.write("CLI(net)\n")
+    new_file.write("net.pingAll()\n")
+    new_file.write("net.stop()\n")
+
+    # run_mininet(other_path, extra)
 
 
-def run_mininet(path, extra):
+def run_mininet(extra):
     sudo_pw = "mininet"
+    path = "/home/mininet/Desktop/"
     # command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
     # command = "gnome-terminal -- python2 " + path + "new_file.py"
     # command = "python2 " + path + "new_file.py"

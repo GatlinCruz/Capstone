@@ -46,6 +46,8 @@ def home(request):
         graph_info['num_controllers'] = controllers
         graph_info['links'] = links
 
+        buttons.make_file(graph_info)
+
     elif request.GET.get('graphbtn'):
         buttons.make_graph(graph_info['num_hosts'], graph_info['num_switches'],
                            graph_info['num_controllers'], graph_info['links'])
@@ -55,7 +57,8 @@ def home(request):
         buttons.reset_graph(graph_info)
 
     elif request.GET.get('pingbtn'):
-        buttons.make_file(graph_info, extra_text)
+        # buttons.make_file(graph_info, extra_text)
+        buttons.run_mininet(extra_text)
 
     return render(request, 'gui/gui.html', context)
 
