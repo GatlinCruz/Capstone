@@ -33,7 +33,7 @@
         <h3>Setup Menu</h3>
         <p class='text-muted'>Enter parameters for setting up the network.</p>
           <div class="btn-group" style="display: inline-block">
-            <form action="#" method="get" style="width:225px; height:400px; background-color:#f3f2f2;">
+            <form action="#" method="get" style="width:225px; height:400px; background-color:#f3f2f2">
                 <label style=" margin-left:10px">Number of Hosts: <input type="text" value="{{graph.num_hosts}}" id="host" name="host" size="3" style="width:30px; margin-left: 37px; margin-top: 10px;"/></label>
                 <label style=" margin-left:10px">Number of Switches: <input type="text" value="{{graph.num_switches}}" id="switch" name="switch" size="3" style="width:30px; margin-left: 14px"/></label>
                 <label style=" margin-left:10px">Number of Controllers: <input type="text" value="{{graph.num_controllers}}" id="controller" name="controller" size="3" style="width:30px"/></label>
@@ -43,22 +43,25 @@
                 <div>
                     <input type="submit" value="Generate Graph" id='graphbutton' name="graphbtn" style="margin-left: 46px">
                     <input type="submit" value="Run Mininet" name="runbtn" style="margin-left: 61px">
+                    <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
                 </div>
                 <div>
-                    <input type="text" value="h1" id="first" name="first" size="1" style="width:30px; margin-top: 10px; margin-left: 42px"/>
-                    <input type="submit" value="Ping All" name="pingbtn" >
-                    <input type="text" value="h2" id="second" name="second" size="1" style="width:30px; margin-top: 10px; "/>
+<!--                    <input type="text" value="h1" id="first" name="first" size="1" style="width:30px; margin-top: 10px; margin-left: 42px"/>-->
+
+<!--                    <input type="text" value="h2" id="second" name="second" size="1" style="width:30px; margin-top: 10px; "/>-->
                 </div>
             </form>
           </div>
       </div>
-    </div>
-    <div class="col-md-8">
-        {% block content %}{% endblock %}
+<!--        <div class="col-md-8">-->
+
+<!--    </div>-->
     </div>
   </div>
-    <div id="frame" style="display:inline-block;">
- <iframe srcdoc="{{graph_html}}" width="430px" height="500" id="iframe1"> </iframe>
+
+    <div id="block" style="display:inline-block">
+        {% block content %}{% endblock %}
+<!-- <iframe srcdoc="{{graph_html}}" width="430px" height="500" id="iframe1"> </iframe>-->
     </div>
 
 
