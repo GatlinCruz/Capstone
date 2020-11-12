@@ -58,13 +58,15 @@
 <!--    </div>-->
     </div>
   </div>
-
-    <div id="block" style="display:inline-block">
+    <div id="content" style="display:inline-block">
+        <h3>Graph Information</h3>
         {% block content %}{% endblock %}
 <!-- <iframe srcdoc="{{graph_html}}" width="430px" height="500" id="iframe1"> </iframe>-->
     </div>
-
-
+    <div id="output" style="display:inline-block">
+        <h3>Output</h3>
+        {% block output %}{% endblock %}
+    </div>
 
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

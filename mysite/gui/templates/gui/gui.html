@@ -5,5 +5,8 @@
     <h1>Switches: {{graph.num_switches}}</h1>
     <h1>Controllers: {{graph.num_controllers}}</h1>
     <h1>Links: {{graph.links}}</h1>
-    <pre><h2>{{output.ping}}</h2></pre>
 {% endblock content %}
+
+{% block output %}
+    <pre><h2>{{output.ping}}</h2></pre>
+{% endblock output %}
