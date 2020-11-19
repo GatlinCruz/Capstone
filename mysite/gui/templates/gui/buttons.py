@@ -115,8 +115,9 @@ def make_file(graph):
     for controller in range(graph.get('num_controllers')):
         controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
     for link in range(len(graph.get('links'))):
-        link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
-                     + "', '" + str(graph.get('links')[link][1]) + "' )\n"
+        if str(graph.get('links')[link][0][0]) != "c" and str(graph.get('links')[link][1][0]) != "c":
+            link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
+                      + "', '" + str(graph.get('links')[link][1]) + "' )\n"
 
     print(host_text)
     print(switch_text)
