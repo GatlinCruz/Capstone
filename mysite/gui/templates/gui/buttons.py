@@ -34,26 +34,36 @@ def make_graph(hosts, switches, controllers, links):
     node_x = []
     node_y = []
     start_x = 1
-    start_y = 1
+    host_y = 1
+    last_switch_x = -1
+    switch_y = 5
+    cont_y = 8
     for node in G.nodes():
         # x = np.random.uniform(low=1, high=5)
         # y = np.random.uniform(low=1, high=5)
-        x = start_x
-        y = start_y
+
+        if G.nodes[node]['type'] == 'Switch':
+            y = switch_y
+            last_switch_x = start_x
+            start_x += 1
+            x = start_x
+        elif G.nodes[node]['type'] == 'Controller':
+            y = cont_y
+            x = last_switch_x
+        else:
+            start_x += 1
+            y = host_y
+            x = start_x
+
         G.nodes[node]['pos'] = x, y
         x, y = G.nodes[node]['pos']
         node_x.append(x)
         node_y.append(y)
-        if G.nodes[node]['type'] == 'Switch':
-            start_y += 5
-            start_x = 1
-        else:
-            start_x += 1
 
     node_trace = go.Scatter(
         x=node_x, y=node_y,
         mode='markers+text',
-        hoverinfo='text',
+        hoverinfo='none',
         marker=dict(
             size=50,
             color=[]))
@@ -93,8 +103,8 @@ def make_graph(hosts, switches, controllers, links):
                     layout=go.Layout(
                         showlegend=False,  # hovermode='closest',
                         margin=dict(b=20, l=5, r=5, t=40),
-                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=True),
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=True))
                     )
 
     # if os.path.exists(PATH + 'figure.html'):
