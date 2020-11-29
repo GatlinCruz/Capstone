@@ -18,32 +18,44 @@ def make_graph(hosts, switches, controllers, links):
 
     G.add_edges_from(links)
 
-    for host in range(0, hosts):
-        G.add_node("h" + str(host + 1), type='Host', color='black')
-        print("Added host " + "h" + str(host + 1))
     for switch in range(0, switches):
-        G.add_node("s" + str(switch + 1), type='Switch', color='green')
+        s_name = "s" + str(switch + 1)
+        G.add_node(s_name, type='Switch', color='green', name=s_name)
         print("Added switch " + "s" + str(switch + 1))
     for controller in range(0, controllers):
-        G.add_node("c" + str(controller + 1), type='Controller', color='blue')
+        c_name = "c" + str(controller + 1)
+        G.add_node(c_name, type='Controller', color='blue', name=c_name)
         print("Added controller " + "c" + str(controller + 1))
+    for host in range(0, hosts):
+        h_name = "h" + str(host + 1)
+        G.add_node(h_name, type='Host', color='black', name=h_name)
+        print("Added host " + "h" + str(host + 1))
 
     node_x = []
     node_y = []
+    start_x = 1
+    start_y = 1
     for node in G.nodes():
-        x = np.random.uniform(low=1, high=20)
-        y = np.random.uniform(low=1, high=20)
+        # x = np.random.uniform(low=1, high=5)
+        # y = np.random.uniform(low=1, high=5)
+        x = start_x
+        y = start_y
         G.nodes[node]['pos'] = x, y
         x, y = G.nodes[node]['pos']
         node_x.append(x)
         node_y.append(y)
+        if G.nodes[node]['type'] == 'Switch':
+            start_y += 5
+            start_x = 1
+        else:
+            start_x += 1
 
     node_trace = go.Scatter(
         x=node_x, y=node_y,
-        mode='markers',
+        mode='markers+text',
         hoverinfo='text',
         marker=dict(
-            size=40,
+            size=50,
             color=[]))
 
     edge_x = []
@@ -60,22 +72,26 @@ def make_graph(hosts, switches, controllers, links):
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
-        line=dict(width=2, color='black'),
+        line=dict(width=5, color='black'),
         hoverinfo='none',
         mode='lines')
 
     node_text = []
     node_color = []
     for node in G.nodes():
-        node_text.append(" " + G.nodes[node]['type'] + " ")
+        node_text.append(G.nodes[node]['name'])  # type
         node_color.append(G.nodes[node]['color'])
     node_trace.marker.color = node_color
     node_trace.text = node_text
+    node_trace.textfont = dict(
+        family="monospace",
+        size=32,
+        color="white"
+    )
 
     fig = go.Figure(data=[edge_trace, node_trace],
                     layout=go.Layout(
-                        showlegend=False,
-                        hovermode='closest',
+                        showlegend=False,  # hovermode='closest',
                         margin=dict(b=20, l=5, r=5, t=40),
                         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
