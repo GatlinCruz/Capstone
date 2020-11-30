@@ -44,12 +44,14 @@ def make_graph(hosts, switches, controllers, links):
 
         if G.nodes[node]['type'] == 'Switch':
             y = switch_y
-            last_switch_x = start_x
             start_x += 1
             x = start_x
+            last_switch_x = x
+
         elif G.nodes[node]['type'] == 'Controller':
             y = cont_y
             x = last_switch_x
+            last_switch_x += 3
         else:
             start_x += 1
             y = host_y
@@ -103,16 +105,14 @@ def make_graph(hosts, switches, controllers, links):
                     layout=go.Layout(
                         showlegend=False,  # hovermode='closest',
                         margin=dict(b=20, l=5, r=5, t=40),
-                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=True),
-                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=True))
+                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
 
     # if os.path.exists(PATH + 'figure.html'):
     #    fig.write_html(PATH + ('figure_{}.html'.format(int(time.time()))))
     # else:
     fig.write_html(PATH + 'figure.html')
-
-    # pio.write_html(fig, file=PATH + 'figure.html', auto_open=False)
 
 
 def reset_graph(graph):
@@ -163,11 +163,6 @@ def make_file(graph):
 def run_mininet(extra):
     sudo_pw = "mininet"
     path = "/home/mininet/Desktop/"
-    # command = "gnome-terminal -- mn --custom " + path + "base_file.py --topo mytopo"
-    # command = "gnome-terminal -- python2 " + path + "new_file.py"
-    # command = "python2 " + path + "new_file.py"
-    # p = os.popen('echo %s|sudo -S %s' % (sudo_pw, command))
-    # print(p.read())
 
     command = "python2 " + path + "new_file.py"
     command = command.split()

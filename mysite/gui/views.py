@@ -57,7 +57,6 @@ def home(request):
         buttons.reset_graph(graph_info)
 
     elif request.GET.get('pingbtn'):
-        # buttons.make_file(graph_info, extra_text)
         buttons.run_mininet(extra_text)
 
     return render(request, 'gui/gui.html', context)
