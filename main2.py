@@ -1,3 +1,9 @@
+"""
+This file creates a PyWebView screen and displays the server using local host
+Currently this is not being used
+__author__: Gatlin Cruz
+__author__: Cade Tipton
+"""
 import webview
 import time
 
