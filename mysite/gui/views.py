@@ -2,18 +2,28 @@ import importlib.util
 
 from django.shortcuts import render
 from pathlib import Path
+"""
+This files is a generated file from Django that we use
+to recieve feedback from the GUI
+Currently this is not being used
+__author__: Gatlin Cruz
+__author__: Cade Tipton
+"""
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 ###### For Windows
+"""This is the path we use when running on a windows machine"""
 # spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
 
 ###### For Mac
+"""This is the path we use when running on a mac/linux machine"""
 spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "/gui/templates/gui/buttons.py")
 
 buttons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(buttons)
 
+"""This graph info is linked to the HTML doc for our GUI. The values are stored in this list"""
 graph_info = {
         'num_hosts': 0,
         'num_switches': 0,
@@ -21,10 +31,12 @@ graph_info = {
         'links': []
         }
 
+"""This is the extra text used to display the ping results from Mininet"""
 extra_text = {
     'ping': ""
 }
 
+"""This is how Django conects the lists to the HTML"""
 context = {
         'graph': graph_info,
         'output': extra_text
@@ -32,6 +44,12 @@ context = {
 
 
 def home(request):
+    """
+    This is the main method for our GUI. It checks if any of the buttons have been pressed
+    and does the appropriate method call. It also sets the parameters for the graph when the 
+    user hits the set button
+    return: The GUI html to display to the user
+    """
     if request.GET.get('setbtn'):
         hosts = int(request.GET.get('host'))
         switches = int(request.GET.get('switch'))
@@ -63,4 +81,8 @@ def home(request):
 
 
 def graph(request):
+        """
+        This method creates the graph HTML and displays to the user
+        return: The rendered HTML of the graph
+        """
     return render(request, 'gui/figure.html')
