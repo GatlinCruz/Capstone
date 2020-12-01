@@ -4,8 +4,7 @@ from django.shortcuts import render
 from pathlib import Path
 """
 This files is a generated file from Django that we use
-to recieve feedback from the GUI
-Currently this is not being used
+to receive feedback from the GUI
 __author__: Gatlin Cruz
 __author__: Cade Tipton
 __version__: 9/15/20
@@ -82,8 +81,8 @@ def home(request):
 
 
 def graph(request):
-        """
-        This method creates the graph HTML and displays to the user
-        return: The rendered HTML of the graph
-        """
+    """
+    This method creates the graph HTML and displays to the user
+    return: The rendered HTML of the graph
+    """
     return render(request, 'gui/figure.html')
