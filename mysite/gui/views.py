@@ -8,6 +8,7 @@ to recieve feedback from the GUI
 Currently this is not being used
 __author__: Gatlin Cruz
 __author__: Cade Tipton
+__version__: 9/15/20
 """
 
 BASE_DIR = Path(__file__).resolve().parent.parent
