@@ -5,7 +5,12 @@ from pathlib import Path
 import os
 import time
 import subprocess
-
+"""
+This file handles the logic when a button is pressed on our GUI
+__author__ Cade Tipton
+__author__ Gatlin Cruz
+__version__ 9/15/20
+"""
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
 
@@ -14,6 +19,14 @@ filename = ''
 
 
 def make_graph(hosts, switches, controllers, links):
+    """
+    This setups up the graph based on the parameters from the user and makes an HTML file of the graph
+    args:
+     hosts: The number of hosts in the graph
+     switches: The number of switches in the graph
+     controllers: The number of controllers in the graph
+     links: The links in the graph
+    """
     G = nx.Graph()
 
     G.add_edges_from(links)
@@ -116,6 +129,11 @@ def make_graph(hosts, switches, controllers, links):
 
 
 def reset_graph(graph):
+    """
+    Resets the values of the graph to 0
+    args:
+      graph: The graph list being used
+    """
     graph['num_hosts'] = 0
     graph['num_switches'] = 0
     graph['num_controllers'] = 0
@@ -123,6 +141,11 @@ def reset_graph(graph):
 
 
 def make_file(graph):
+    """
+    Creates a Python file that represents a network using Mininet
+    args:
+       graph: The graph list with the values for the network
+    """
     other_path = "/home/mininet/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
@@ -161,6 +184,11 @@ def make_file(graph):
 
 
 def run_mininet(extra):
+    """
+    Method to run Mininet in the background so the user can run commands through it
+    args:
+       extra: The holder for the results to be stored to
+    """
     sudo_pw = "mininet"
     path = "/home/mininet/Desktop/"
 
@@ -179,6 +207,9 @@ def run_mininet(extra):
 
 
 def main():
+    """
+    The main method that creates a path
+    """
     custom_path = "/home/mininet/mininet/custom/"
 
     # base_file = open(custom_path + "base_file.py", "a")
