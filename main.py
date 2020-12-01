@@ -4,6 +4,12 @@ import networkx as nx
 # import matplotlib.pyplot as plt
 import webview
 import time
+"""This file is a tester file to create a network using networkx
+This file is currently not in use and used for testing purposes
+Currently this is not being used
+__author__: Gatlin Cruz
+__author__: Cade Tipton
+"""
 # from bs4 import BeautifulSoup
 #
 #
