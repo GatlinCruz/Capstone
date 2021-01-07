@@ -15,9 +15,9 @@ buttons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(buttons)
 
 graph_info = {
-        'num_hosts': 0,
-        'num_switches': 0,
-        'num_controllers': 0,
+        'num_hosts': 1,
+        'num_switches': 1,
+        'num_controllers': 1,
         'links': []
         }
 
@@ -33,9 +33,9 @@ context = {
 
 def home(request):
     if request.GET.get('setbtn'):
-        hosts = int(request.GET.get('host'))
-        switches = int(request.GET.get('switch'))
-        controllers = int(request.GET.get('controller'))
+        hosts = int(request.GET.get('host-options'))
+        switches = int(request.GET.get('switch-options'))
+        controllers = int(request.GET.get('controller-options'))
         link = request.GET.get('link').replace(" ", "").split(';')
         links = []
         for pair in link:
@@ -59,7 +59,7 @@ def home(request):
     elif request.GET.get('pingbtn'):
         buttons.run_mininet(extra_text)
 
-    return render(request, 'gui/gui.html', context)
+    return render(request, 'gui/gui2.html', context)
 
 
 def graph(request):

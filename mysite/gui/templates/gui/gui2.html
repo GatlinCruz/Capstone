@@ -1,10 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "gui/base2.html" %}
 
-</body>
-</html>
+{% block content %}
+
+<div class="setup-section" style="width:20%; margin:10px;" >
+    <h2 style="margin-bottom:20px; background-color: #f3f2f2">Setup Menu</h2>
+    <form action="#" method="get" style="background-color:#f3f2f2; padding-bottom:10px;">
+
+        <label style="margin-left: 10px">Number of Hosts: <select id="host-options" name="host-options"></select></label>
+
+        <label style="margin-left: 10px">Number of Switches: <select id="switch-options" name="switch-options"></select></label>
+
+        <label style="margin-left: 10px">Number of Controllers: <select id="controller-options" name="controller-options"></select></label>
+        <input type="button" value="Apply" name="apply-button" id="apply-button" onclick="setParams()">
+
+<!--        <label style=" margin-left:10px">Link Nodes: <input type="text" placeholder="Ex h1, s1; h2, s1" id="link" name="link" /></label>-->
+        <div class="add-links" name="add-links" id="add-links" style="background-color: #f3f2f2; width: 300px; height: 150px; overflow: scroll">
+            <div>
+                <label>Information above must be applied before links can be added</label>
+            </div>
+<!--            <div id="div1">-->
+<!--                <label>Create link from <select id="option1" name="option1"></select></label>-->
+<!--                <label>to <select id="option2" name="option2"></select></label>-->
+<!--            </div>-->
+        </div>
+        <div>
+            <input type="button" disabled value="Add new link" name="add-link-button" id=add-link-button" onclick="addLink()">
+            <input type="button" disabled value="Remove link" name="remove-link-button" id="remove-link-button" onclick="removeLink()">
+        </div>
+
+
+        <input type="submit" value="Set Parameters" name="setbtn" style="margin-left: 48px; margin-bottom: 8px">
+        <input type="submit" value="Reset Parameters" name="resetbtn" style="margin-left: 40px; margin-bottom: 8px">
+        <select id="size"></select>
+        <div>
+            <input type="submit" value="Generate Graph" name="graphbtn" style="margin-left: 46px; margin-bottom: 8px">
+            <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function fillNums() {
+        var select = "<option value='1'> 1 </option>";
+        for(var i = 2; i <= 100; i++) {
+            select += "<option value='" + i + "'>" + i + "</option>";
+        }
+        document.getElementById('host-options').innerHTML = select;
+        document.getElementById('switch-options').innerHTML = select;
+        document.getElementById('controller-options').innerHTML = select;
+    }
+
+    var count = 2;
+    function addLink() {
+        var listLinks = document.getElementById('add-links');
+        var newItem = "<div id=\"div" + count++ + "\">";
+        newItem += "<label>Create link from <select id=\"option" + count + "\" name=\"option4\"></select></label>";
+        newItem += "<label>to <select id=\"option5\" name=\"option5\"></select></label>";
+        newItem += "</div>";
+        listLinks.innerHTML += newItem;
+    }
+
+    function removeLink() {
+        var listLinks = document.getElementById('add-links');
+        var curr = "div" + count;
+        var l = document.getElementById(curr);
+        if(listLinks.children.length > 1) {
+            listLinks.removeChild(listLinks.childNodes[listLinks.children.length]);
+        }
+    }
+
+    function setParams() {
+        var listLinks = document.getElementById('add-links');
+        var item = "<div id=\"div1\">";
+        item += "<label>Create link from <select id=\"option1\" name=\"option1\"></select></label>";
+        item += "<label>to <select id=\"option2\" name=\"option2\"></select></label>";
+        item += "</div>";
+        listLinks.innerHTML = item;
+
+        var numOfHosts = document.getElementById('host-options').value;
+        var numOfSwitches = document.getElementById('switch-options').value;
+        var numOfControllers = document.getElementById('controller-options').value;
+        document.getElementById('host-options').value= 7;
+
+        for(var i = 1; i <= numOfHosts; i++) {
+            select += "<option value='" + i + "'>" + i + "</option>";
+        }
+        document.getElementById('option1').innerHTML = select;
+        document.getElementById('option2').innerHTML = select;
+
+    }
+</script>
+
+
+<div class="content-section" id="content" style="width:30%; float:left; margin:10px">
+    <h2 style="margin-bottom:20px">Graph Information</h2>
+    <div style="background-color:#f3f2f2">
+        <h1>Hosts: {{graph.num_hosts}}</h1>
+    <h1>Switches: {{graph.num_switches}}</h1>
+    <h1>Controllers: {{graph.num_controllers}}</h1>
+    <h1>Links: {{graph.links}}</h1>
+    </div>
+</div>
+
+
+
+<div class="content-section" id="output" style="float:left; margin:10px">
+    <h2 style="margin-bottom:20px">Output</h2>
+    <div style="background-color:#f3f2f2">
+
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+{% endblock content %}
+
+{% block output %}
+    <pre><h2>{{output.ping}}</h2></pre>
+{% endblock output %}

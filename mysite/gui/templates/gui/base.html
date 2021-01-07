@@ -11,6 +11,7 @@
 </head>
 
 <body>
+
 <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
@@ -33,7 +34,7 @@
             <label style=" margin-left:10px">Number of Hosts: <input type="text" value="{{graph.num_hosts}}" id="host" name="host" size="3" style="width:30px; margin-left: 37px; margin-top: 10px;"/></label>
             <label style=" margin-left:10px">Number of Switches: <input type="text" value="{{graph.num_switches}}" id="switch" name="switch" size="3" style="width:30px; margin-left: 14px"/></label>
             <label style=" margin-left:10px">Number of Controllers: <input type="text" value="{{graph.num_controllers}}" id="controller" name="controller" size="3" style="width:30px"/></label>
-            <label style=" margin-left:10px">Link Nodes: <input type="text" value="h1, s1; h2, s1" id="link" name="link" /></label>
+            <label style=" margin-left:10px">Link Nodes: <input type="text" placeholder="Ex h1, s1; h2, s1" id="link" name="link" /></label>
             <input type="submit" value="Set Parameters" name="setbtn" style="margin-left: 48px; margin-bottom: 8px">
             <input type="submit" value="Reset Parameters" name="resetbtn" style="margin-left: 40px; margin-bottom: 8px">
             <div>

@@ -123,7 +123,8 @@ def reset_graph(graph):
 
 
 def make_file(graph):
-    other_path = "/home/mininet/Desktop/"
+    #other_path = "/home/mininet/Desktop/"
+    other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -161,8 +162,10 @@ def make_file(graph):
 
 
 def run_mininet(extra):
-    sudo_pw = "mininet"
-    path = "/home/mininet/Desktop/"
+    #sudo_pw = "mininet"
+    #path = "/home/mininet/Desktop/"
+    sudo_pw = "mininet1"
+    path = "/home/gatlin/Desktop/"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -173,7 +176,7 @@ def run_mininet(extra):
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
 
-    errors = errors.replace("[sudo] password for mininet: ", "")
+    errors = errors.replace("[sudo] password for gatlin: ", "")
 
     extra['ping'] = errors
 
