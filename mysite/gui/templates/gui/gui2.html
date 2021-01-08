@@ -16,15 +16,15 @@
 <!--        <label style=" margin-left:10px">Link Nodes: <input type="text" placeholder="Ex h1, s1; h2, s1" id="link" name="link" /></label>-->
         <div class="add-links" name="add-links" id="add-links" style="background-color: #f3f2f2; width: 300px; height: 150px; overflow: scroll">
             <div>
-                <label>Information above must be applied before links can be added</label>
+                <label><b><i>Information above must be applied before links can be added</i></b></label>
             </div>
 <!--            <div id="div1">-->
-<!--                <label>Create link from <select id="option1" name="option1"></select></label>-->
-<!--                <label>to <select id="option2" name="option2"></select></label>-->
+<!--                <label>Create link from <select disabled id="option1" name="option1"></select></label>-->
+<!--                <label>to <select disabled id="option2" name="option2"></select></label>-->
 <!--            </div>-->
         </div>
         <div>
-            <input type="button" disabled value="Add new link" name="add-link-button" id=add-link-button" onclick="addLink()">
+            <input type="button" disabled value="Add new link" name="add-link-button" id="add-link-button" onclick="addLink()">
             <input type="button" disabled value="Remove link" name="remove-link-button" id="remove-link-button" onclick="removeLink()">
         </div>
 
@@ -50,14 +50,36 @@
         document.getElementById('controller-options').innerHTML = select;
     }
 
-    var count = 2;
+    var count = 3;
     function addLink() {
         var listLinks = document.getElementById('add-links');
-        var newItem = "<div id=\"div" + count++ + "\">";
-        newItem += "<label>Create link from <select id=\"option" + count + "\" name=\"option4\"></select></label>";
-        newItem += "<label>to <select id=\"option5\" name=\"option5\"></select></label>";
+        var newItem = "<div id=\"div" + count + "\">";
+        newItem += "<label>Create link from <select id=\"option" + count + "\" name=\"option" + count++ + " \"></select></label>";
+        newItem += "<label>to <select id=\"option" + count + "\" name=\"option" + count++ + "\"></select></label>";
         newItem += "</div>";
         listLinks.innerHTML += newItem;
+
+
+
+         var select = "";
+         var x = "option" + (count - 2);
+         var y = "option" + (count - 1);
+
+        for(var i = 1; i <= document.getElementById('host-options').value; i++) {
+            select += "<option value='h" + i + "'>h" + i + "</option>";
+        }
+
+        for(var i = 1; i <= document.getElementById('switch-options').value; i++) {
+            select += "<option value='s" + i + "'>s" + i + "</option>";
+        }
+
+        for(var i = 1; i <= document.getElementById('controller-options').value; i++) {
+            select += "<option value='c" + i + "'>c" + i + "</option>";
+        }
+        document.getElementById(x).innerHTML += select;
+        document.getElementById(y).innerHTML += select;
+
+
     }
 
     function removeLink() {
@@ -65,7 +87,7 @@
         var curr = "div" + count;
         var l = document.getElementById(curr);
         if(listLinks.children.length > 1) {
-            listLinks.removeChild(listLinks.childNodes[listLinks.children.length]);
+            listLinks.removeChild(listLinks.lastChild);
         }
     }
 
@@ -80,15 +102,31 @@
         var numOfHosts = document.getElementById('host-options').value;
         var numOfSwitches = document.getElementById('switch-options').value;
         var numOfControllers = document.getElementById('controller-options').value;
-        document.getElementById('host-options').value= 7;
+        document.getElementById('add-link-button').disabled = false;
+        document.getElementById('remove-link-button').disabled = false;
+        document.getElementById('option1').disabled = false;
+        document.getElementById('option2').disabled = false;
+        var select = "";
 
-        for(var i = 1; i <= numOfHosts; i++) {
-            select += "<option value='" + i + "'>" + i + "</option>";
+        for(var i = 1; i <= document.getElementById('host-options').value; i++) {
+            select += "<option value='h" + i + "'>h" + i + "</option>";
         }
-        document.getElementById('option1').innerHTML = select;
-        document.getElementById('option2').innerHTML = select;
+
+        for(var i = 1; i <= document.getElementById('switch-options').value; i++) {
+            select += "<option value='s" + i + "'>s" + i + "</option>";
+        }
+
+        for(var i = 1; i <= document.getElementById('controller-options').value; i++) {
+            select += "<option value='c" + i + "'>c" + i + "</option>";
+        }
+        document.getElementById('option1').innerHTML += select;
+        document.getElementById('option2').innerHTML += select;
+    }
+
+    function setLinks() {
 
     }
+
 </script>
 
 
