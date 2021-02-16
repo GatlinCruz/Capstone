@@ -27,7 +27,7 @@
 <body onload="fillNums()">
 <div class="wrapper" >
         <ul>
-            <li>Setup</li>
+            <li onclick="test()">Setup</li>
 
             <li>Graph
                 <ul>
@@ -44,5 +44,11 @@
     {% block output %}{% endblock %}
 </div>
   <script src="js/scripts.js"></script>
+    <script>
+         function test() {
+        var f = document.getElementById('thisform');
+        f.hidden = false;
+    }
+    </script>
 </body>
 </html>

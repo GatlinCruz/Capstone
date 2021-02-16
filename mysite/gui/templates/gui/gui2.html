@@ -1,10 +1,18 @@
 {% extends "gui/base2.html" %}
 
 {% block content %}
+<style>
+    #div*{
+        background-color: #0000FF;
+    }
+    #hello {
+        background-color: #FF00FF;
+    }
+</style>
 
 <div class="setup-section" style="width:20%; margin:10px;" >
     <h2 style="margin-bottom:20px; background-color: #f3f2f2">Setup Menu</h2>
-    <form action="#" method="get" style="background-color:#f3f2f2; padding-bottom:10px;">
+    <form id ="thisform" action="#" method="get" style="background-color:#f3f2f2; padding-bottom:10px;">
 
         <label style="margin-left: 10px">Number of Hosts: <select id="host-options" name="host-options"></select></label>
 
@@ -16,7 +24,7 @@
 <!--        <label style=" margin-left:10px">Link Nodes: <input type="text" placeholder="Ex h1, s1; h2, s1" id="link" name="link" /></label>-->
         <div class="add-links" name="add-links" id="add-links" style="background-color: #f3f2f2; width: 300px; height: 150px; overflow: scroll">
             <div>
-                <label><b><i>Information above must be applied before links can be added</i></b></label>
+                <label id="hello"><b><i>Information above must be applied before links can be added</i></b></label>
             </div>
 <!--            <div id="div1">-->
 <!--                <label>Create link from <select disabled id="option1" name="option1"></select></label>-->
@@ -58,6 +66,8 @@
         newItem += "<label>to <select id=\"option" + count + "\" name=\"option" + count++ + "\"></select></label>";
         newItem += "</div>";
         listLinks.innerHTML += newItem;
+        var f = document.getElementById('thisform');
+        f.hidden = true;
 
 
 
@@ -123,9 +133,13 @@
         document.getElementById('option2').innerHTML += select;
     }
 
+
+
     function setLinks() {
 
     }
+
+
 
 </script>
 
