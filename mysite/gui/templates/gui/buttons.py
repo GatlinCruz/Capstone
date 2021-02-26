@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import time
 import subprocess
+import importlib.util
 """
 This file handles the logic when a button is pressed on our GUI
 __author__ Cade Tipton
@@ -16,6 +17,7 @@ PATH = os.path.join(BASE_DIR, "gui/")
 
 np.random.seed(1)
 filename = ''
+
 
 
 def make_graph(hosts, switches, controllers, links):
@@ -146,7 +148,7 @@ def make_file(graph):
     args:
        graph: The graph list with the values for the network
     """
-    other_path = "/home/mininet/Desktop/"
+    other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -189,8 +191,8 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    sudo_pw = "mininet"
-    path = "/home/mininet/Desktop/"
+    sudo_pw = "Davis123!"
+    path = "/home/gatlin/Desktop/"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -204,6 +206,9 @@ def run_mininet(extra):
     errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
+
+def add_to_database(hosts, switches, controllers, links):
+    print("Hello")
 
 
 def main():
