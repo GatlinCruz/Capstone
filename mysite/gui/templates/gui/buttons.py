@@ -225,7 +225,7 @@ def add_to_database(hosts, switches, controllers, links):
     password = "mininet"
     app = db_testing.App(bolt_url, user, password)
     for i in range(hosts):
-        app.create_friendship("h" + str(i), "h" + str(i + 1))
+        app.create_node("h" + str(i))
 
     app.close()
 
