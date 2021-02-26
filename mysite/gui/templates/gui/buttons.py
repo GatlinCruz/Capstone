@@ -15,6 +15,18 @@ __version__ 9/15/20
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
 
+
+###### For Windows
+"""This is the path we use when running on a windows machine"""
+# spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
+
+###### For Mac
+"""This is the path we use when running on a mac/linux machine"""
+spec = importlib.util.spec_from_file_location("db_testing", str(BASE_DIR) + "/db_testing.py")
+
+db_testing = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(db_testing)
+
 np.random.seed(1)
 filename = ''
 
@@ -208,7 +220,14 @@ def run_mininet(extra):
     extra['ping'] = errors
 
 def add_to_database(hosts, switches, controllers, links):
-    print("Hello")
+    bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
+    user = "neo4j"
+    password = "mininet"
+    app = db_testing.App(bolt_url, user, password)
+    for i in range(hosts):
+        app.create_friendship("h" + str(i), "h" + str(i + 1))
+
+    app.close()
 
 
 def main():
