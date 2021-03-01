@@ -64,6 +64,7 @@ class App:
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_node, person1_name)
 
+
 if __name__ == "__main__":
     # Aura queries use an encrypted connection using the "neo4j+s" URI scheme
     bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%

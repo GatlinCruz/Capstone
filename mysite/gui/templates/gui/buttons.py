@@ -6,6 +6,7 @@ import os
 import time
 import subprocess
 import importlib.util
+
 """
 This file handles the logic when a button is pressed on our GUI
 __author__ Cade Tipton
@@ -14,7 +15,6 @@ __version__ 9/15/20
 """
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
-
 
 ###### For Windows
 """This is the path we use when running on a windows machine"""
@@ -29,7 +29,6 @@ spec.loader.exec_module(db_testing)
 
 np.random.seed(1)
 filename = ''
-
 
 
 def make_graph(hosts, switches, controllers, links):
@@ -160,7 +159,7 @@ def make_file(graph):
     args:
        graph: The graph list with the values for the network
     """
-    other_path = "/home/gatlin/Desktop/"
+    other_path = "/home/mininet/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -180,7 +179,7 @@ def make_file(graph):
     for link in range(len(graph.get('links'))):
         if str(graph.get('links')[link][0][0]) != "c" and str(graph.get('links')[link][1][0]) != "c":
             link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
-                      + "', '" + str(graph.get('links')[link][1]) + "' )\n"
+                         + "', '" + str(graph.get('links')[link][1]) + "' )\n"
 
     print(host_text)
     print(switch_text)
@@ -203,8 +202,10 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    sudo_pw = "Davis123!"
-    path = "/home/gatlin/Desktop/"
+    #sudo_pw = "Davis123!"
+    #path = "/home/gatlin/Desktop/"
+    sudo_pw = "mininet"
+    path = "/home/mininet/Desktop/"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -219,13 +220,18 @@ def run_mininet(extra):
 
     extra['ping'] = errors
 
+
 def add_to_database(hosts, switches, controllers, links):
     bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
     user = "neo4j"
     password = "mininet"
     app = db_testing.App(bolt_url, user, password)
     for i in range(hosts):
-        app.create_node("h" + str(i))
+        app.create_node("h" + str(i + 1))
+    for i in range(switches):
+        app.create_node("s" + str(i + 1))
+    for i in range(controllers):
+        app.create_node("c" + str(i + 1))
 
     app.close()
 

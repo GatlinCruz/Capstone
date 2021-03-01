@@ -26,7 +26,7 @@
     </nav>
 </header>
 
-<div class="content-section" style="width:15%; float: left; margin:10px">
+<div class="content-section" style="width:16%; float: left; margin:10px">
     <h2 style="margin-bottom:20px">Setup Menu</h2>
     <div class="btn-group" style="display: inline-block; margin-bottom:10px">
         <form action="#" method="get" style="background-color:#f3f2f2; padding-bottom:10px">
@@ -40,16 +40,22 @@
                 <input type="submit" value="Generate Graph" name="graphbtn" style="margin-left: 46px; margin-bottom: 8px">
                 <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
             </div>
-            <input type="submit" value="Add to database" name="add_databtn">
+                <hr style="height:2px;border-width:0;color:lightgray;background-color:lightgray">
+                <h2 style="margin-bottom:20px">Database Menu</h2>
+                <div style="background-color:#f3f2f2">
+                    <input type="submit" value="Save to Database" name="add_databtn">
+                </div>
         </form>
     </div>
 </div>
-<div class="content-section" id="content" style="width:30%; float:left; margin:10px">
+
+<div class="content-section" id="info" style="width:30%; float:left; margin:10px">
     <h2 style="margin-bottom:20px">Graph Information</h2>
     <div style="background-color:#f3f2f2">
         {% block content %}{% endblock %}
     </div>
 </div>
+
 <div class="content-section" id="output" style="float:left; margin:10px">
     <h2 style="margin-bottom:20px">Output</h2>
     <div style="background-color:#f3f2f2">
