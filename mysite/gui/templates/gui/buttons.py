@@ -5,6 +5,7 @@ from pathlib import Path
 import os
 import time
 import subprocess
+import importlib.util
 """
 This file handles the logic when a button is pressed on our GUI
 __author__ Cade Tipton
@@ -14,8 +15,21 @@ __version__ 9/15/20
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
 
+
+###### For Windows
+"""This is the path we use when running on a windows machine"""
+# spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
+
+###### For Mac
+"""This is the path we use when running on a mac/linux machine"""
+spec = importlib.util.spec_from_file_location("db_testing", str(BASE_DIR) + "/db_testing.py")
+
+db_testing = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(db_testing)
+
 np.random.seed(1)
 filename = ''
+
 
 
 def make_graph(hosts, switches, controllers, links):
@@ -146,7 +160,7 @@ def make_file(graph):
     args:
        graph: The graph list with the values for the network
     """
-    other_path = "/home/mininet/Desktop/"
+    other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -189,8 +203,8 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    sudo_pw = "mininet"
-    path = "/home/mininet/Desktop/"
+    sudo_pw = "Davis123!"
+    path = "/home/gatlin/Desktop/"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -204,6 +218,16 @@ def run_mininet(extra):
     errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
+
+def add_to_database(hosts, switches, controllers, links):
+    bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
+    user = "neo4j"
+    password = "mininet"
+    app = db_testing.App(bolt_url, user, password)
+    for i in range(hosts):
+        app.create_node("h" + str(i))
+
+    app.close()
 
 
 def main():

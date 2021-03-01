@@ -77,6 +77,10 @@ def home(request):
     elif request.GET.get('pingbtn'):
         buttons.run_mininet(extra_text)
 
+    elif request.GET.get('add_databtn'):
+        buttons.add_to_database(graph_info['num_hosts'], graph_info['num_switches'],
+                                graph_info['num_controllers'], graph_info['links'])
+
     return render(request, 'gui/gui.html', context)
 
 
