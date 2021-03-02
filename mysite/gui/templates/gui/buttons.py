@@ -40,10 +40,12 @@ def make_graph(hosts, switches, controllers, links):
      controllers: The number of controllers in the graph
      links: The links in the graph
     """
+    # The graph object used to build the network throughout the function
     G = nx.Graph()
 
     G.add_edges_from(links)
 
+    # Adds a node for each number of host, switch and controller
     for switch in range(0, switches):
         s_name = "s" + str(switch + 1)
         G.add_node(s_name, type='Switch', color='green', name=s_name)
@@ -67,6 +69,7 @@ def make_graph(hosts, switches, controllers, links):
     for node in G.nodes():
         # x = np.random.uniform(low=1, high=5)
         # y = np.random.uniform(low=1, high=5)
+
 
         if G.nodes[node]['type'] == 'Switch':
             y = switch_y
@@ -181,11 +184,14 @@ def make_file(graph):
             link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
                          + "', '" + str(graph.get('links')[link][1]) + "' )\n"
 
+
     print(host_text)
     print(switch_text)
     print(controller_text)
     print(link_text)
 
+
+    # Writing the formatted text to the file
     new_file.write("#Add hosts\n" + host_text + "\n")
     new_file.write("#Add switches\n" + switch_text + "\n")
     new_file.write("#Add controllers\n" + controller_text + "\n")
@@ -202,7 +208,6 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    #sudo_pw = "Davis123!"
     #path = "/home/gatlin/Desktop/"
     sudo_pw = "mininet"
     path = "/home/mininet/Desktop/"
@@ -223,8 +228,11 @@ def run_mininet(extra):
 
 def add_to_database(hosts, switches, controllers, links):
     bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
+    # The default username for Neo4j
     user = "neo4j"
+    # The password we use to gain access to the database
     password = "mininet"
+    # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
     for i in range(hosts):
         app.create_node("h" + str(i + 1))

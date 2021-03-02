@@ -6,13 +6,29 @@ from neo4j.exceptions import ServiceUnavailable
 class App:
 
     def __init__(self, uri, user, password):
+        """
+        The constructor for the App object
+        :param uri: The uri that is being used
+        :param user: The username that is used to gain access to the database
+        :param password: The password that is used to gain access to the database
+        """
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
     def close(self):
+        """
+        Cooses the driver object connection
+        :return: None
+        """
         # Don't forget to close the driver connection when you are finished with it
         self.driver.close()
 
     def create_friendship(self, person1_name, person2_name):
+        """
+        Calls the static method _create_and_return_friendship to add nodes and their link
+        :param person1_name: The first node
+        :param person2_name: The second node
+        :return: None
+        """
         with self.driver.session() as session:
             # Write transactions allow the driver to handle retries and transient errors
             result = session.write_transaction(
@@ -22,6 +38,13 @@ class App:
 
     @staticmethod
     def _create_and_return_friendship(tx, person1_name, person2_name):
+        """
+        This method creates two nodes in the database and a link between them
+        :param tx: The tx object used to run the command
+        :param person1_name: The first node
+        :param person2_name: The second node
+        :return: The result from the call
+        """
         # To learn more about the Cypher syntax, see https://neo4j.com/docs/cypher-manual/current/
         # The Reference Card is also a good resource for keywords https://neo4j.com/docs/cypher-refcard/current/
         query = (
@@ -41,6 +64,11 @@ class App:
             raise
 
     def find_person(self, person_name):
+        """
+        Calls the static method _find_and_return_person to find a node
+        :param person_name: The node that is being searched for
+        :return: None
+        """
         with self.driver.session() as session:
             result = session.read_transaction(self._find_and_return_person, person_name)
             for row in result:
@@ -48,6 +76,12 @@ class App:
 
     @staticmethod
     def _find_and_return_person(tx, person_name):
+        """
+        Finds a node in the database if it exists
+        :param tx: The tx object used to run the command
+        :param person_name: The node that is being searched for
+        :return: The node if it exists
+        """
         query = (
             "MATCH (p:Person) "
             "WHERE p.name = $person_name "
@@ -58,9 +92,20 @@ class App:
 
     @staticmethod
     def _create_and_return_node(tx, node):
+        """
+        Creatss a node to the database
+        :param tx: The tx object used to run the command
+        :param node: The node object that's being added
+        :return: The result from the function call
+        """
         return tx.run("CREATE (p1:NODE { name: $node }) RETURN p1", node=node).single()
 
     def create_node(self, person1_name):
+        """
+        Calls the static method _create_and_return to add a single node
+        :param person1_name: The name of the node
+        :return: The result from the function call
+        """
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_node, person1_name)
 
