@@ -93,7 +93,7 @@ class App:
     @staticmethod
     def _create_and_return_node(tx, node):
         """
-        Creatss a node to the database
+        Creates a node to the database
         :param tx: The tx object used to run the command
         :param node: The node object that's being added
         :return: The result from the function call
