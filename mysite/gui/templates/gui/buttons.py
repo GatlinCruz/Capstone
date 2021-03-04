@@ -163,6 +163,7 @@ def make_file(graph):
        graph: The graph list with the values for the network
     """
     other_path = "/home/mininet/Desktop/"
+    other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -240,6 +241,11 @@ def add_to_database(hosts, switches, controllers, links):
         app.create_node("s" + str(i + 1))
     for i in range(controllers):
         app.create_node("c" + str(i + 1))
+
+    for item in links:
+        app.create_links_db(item[0], item[1])
+
+
 
     app.close()
 

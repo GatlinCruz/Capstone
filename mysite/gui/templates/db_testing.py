@@ -50,7 +50,7 @@ class App:
         query = (
             "CREATE (p1:Person { name: $person1_name }) "
             "CREATE (p2:Person { name: $person2_name }) "
-            "CREATE (p1)-[:KNOWS]->(p2) "
+            "CREATE (p1)-[:O]->(p2) "
             "RETURN p1, p2"
         )
         result = tx.run(query, person1_name=person1_name, person2_name=person2_name)
@@ -108,6 +108,27 @@ class App:
         """
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_node, person1_name)
+
+    @staticmethod
+    def _create_and_return_links_db(tx, node1, node2):
+        """
+        Creates the links between the nodes
+        :param tx: the object that runs the query
+        :param node1: the starting node in the link
+        :param node2: the ending node in the link
+        :return: the result of the function call
+        """
+        return tx.run("MATCH (a:NODE), (b:NODE) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN type(r)".format(node1, node2))
+
+    def create_links_db(self, node1, node2):
+        """
+        Calls _create_and_return_links_db method
+        :param node1: the starting node in the link
+        :param node2: the ending node in the link
+        :return: the result of the function call
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(self._create_and_return_links_db, node1, node2)
 
 
 if __name__ == "__main__":
