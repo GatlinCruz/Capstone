@@ -14,6 +14,7 @@ class App:
         """
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
 
+
     def close(self):
         """
         Cooses the driver object connection
@@ -91,26 +92,28 @@ class App:
         return [row["name"] for row in result]
 
     @staticmethod
-    def _create_and_return_node(tx, node):
+    def _create_and_return_node(tx, node, graph_name):
         """
         Creates a node to the database
         :param tx: The tx object used to run the command
         :param node: The node object that's being added
         :return: The result from the function call
         """
-        return tx.run("CREATE (p1:NODE { name: $node }) RETURN p1", node=node).single()
+        query = ("CREATE (p1:" + str(graph_name) + "{ name: $node }) RETURN p1")
 
-    def create_node(self, person1_name):
+        return tx.run(query, node=node, graph_name=graph_name).single()
+
+    def create_node(self, person1_name, graph_name):
         """
         Calls the static method _create_and_return to add a single node
         :param person1_name: The name of the node
         :return: The result from the function call
         """
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_node, person1_name)
+            return session.write_transaction(self._create_and_return_node, person1_name, graph_name)
 
     @staticmethod
-    def _create_and_return_links_db(tx, node1, node2):
+    def _create_and_return_links_db(tx, node1, node2, graph_name):
         """
         Creates the links between the nodes
         :param tx: the object that runs the query
@@ -118,10 +121,11 @@ class App:
         :param node2: the ending node in the link
         :return: the result of the function call
         """
-        return tx.run("MATCH (a:NODE), (b:NODE) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN "
-                      "type(r)".format(node1, node2))
 
-    def create_links_db(self, node1, node2):
+        return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN "
+                      "type(r)".format(graph_name, graph_name,node1, node2))
+
+    def create_links_db(self, node1, node2, graph_name):
         """
         Calls _create_and_return_links_db method
         :param node1: the starting node in the link
@@ -129,7 +133,7 @@ class App:
         :return: the result of the function call
         """
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_links_db, node1, node2)
+            return session.write_transaction(self._create_and_return_links_db, node1, node2, graph_name)
 
     def create_csv(self, filename):
         """
@@ -148,7 +152,8 @@ class App:
         :param filename: the name of the file
         :return: the result of the function call
         """
-        path = "/home/mininet/Desktop/" + str(filename) + ".csv"
+        #path = "/home/mininet/Desktop/" + str(filename) + ".csv"
+        path = "/home/gatlin/Desktop/" + str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
 

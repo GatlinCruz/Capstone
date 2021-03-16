@@ -2,6 +2,11 @@ import importlib.util
 
 from django.shortcuts import render
 from pathlib import Path
+import csv
+from lxml import html
+import requests
+from bs4 import BeautifulSoup
+
 """
 This files is a generated file from Django that we use
 to receive feedback from the GUI
@@ -96,7 +101,26 @@ def home(request):
 
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
-        print(file)
+        path= "/home/gatlin/Desktop/example.csv"
+        nodes_list = []
+        links_list = []
+        with open(path, newline='') as csv_file:
+            csv_r = csv.DictReader(csv_file)
+            for row in csv_r:
+                if(row['_id'] != ''):
+                    nodes_list.append(row)
+
+                else:
+                    links_list.append(row)
+
+        for item in nodes_list:
+            print(item)
+        print("\n")
+        for ot in links_list:
+            print(ot)
+
+
+
 
     return render(request, 'gui/gui.html', context)
 

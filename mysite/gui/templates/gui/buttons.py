@@ -161,8 +161,8 @@ def make_file(graph):
     args:
        graph: The graph list with the values for the network
     """
-    other_path = "/home/mininet/Desktop/"
-    # other_path = "/home/gatlin/Desktop/"
+    #other_path = "/home/mininet/Desktop/"
+    other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -206,9 +206,10 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    # path = "/home/gatlin/Desktop/"
-    sudo_pw = "mininet"
-    path = "/home/mininet/Desktop/"
+    path = "/home/gatlin/Desktop/"
+    #sudo_pw = "mininet"
+    sudo_pw = "Davis123!"
+    #path = "/home/mininet/Desktop/"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -224,7 +225,7 @@ def run_mininet(extra):
     extra['ping'] = errors
 
 
-def add_to_database(hosts, switches, controllers, links, filename):
+def add_to_database(hosts, switches, controllers, links, graph_name):
     bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
     # The default username for Neo4j
     user = "neo4j"
@@ -233,16 +234,16 @@ def add_to_database(hosts, switches, controllers, links, filename):
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
     for i in range(hosts):
-        app.create_node("h" + str(i + 1))
+        app.create_node("h" + str(i + 1), graph_name)
     for i in range(switches):
-        app.create_node("s" + str(i + 1))
+        app.create_node("s" + str(i + 1), graph_name)
     for i in range(controllers):
-        app.create_node("c" + str(i + 1))
+        app.create_node("c" + str(i + 1), graph_name)
 
     for item in links:
-        app.create_links_db(item[0], item[1])
+        app.create_links_db(item[0], item[1], graph_name)
 
-    app.create_csv(filename)
+    app.create_csv(graph_name)
 
     app.close()
 
