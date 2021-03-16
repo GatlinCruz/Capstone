@@ -36,11 +36,17 @@ extra_text = {
     'ping': ""
 }
 
-"""This is how Django conects the lists to the HTML"""
+# database_info = {
+#     'selected_file': ""
+# }
+
+"""This is how Django connects the lists to the HTML"""
 context = {
         'graph': graph_info,
-        'output': extra_text
+        'output': extra_text,
+
     }
+# 'database': database_info
 
 
 def home(request):
@@ -86,6 +92,10 @@ def home(request):
     elif request.GET.get('add_databtn'):
         buttons.add_to_database(graph_info['num_hosts'], graph_info['num_switches'],
                                 graph_info['num_controllers'], graph_info['links'])
+
+    elif request.GET.get('load_databtn'):
+        file = request.GET.get('load_databtn')
+        print(file)
 
     return render(request, 'gui/gui.html', context)
 

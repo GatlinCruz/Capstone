@@ -70,7 +70,6 @@ def make_graph(hosts, switches, controllers, links):
         # x = np.random.uniform(low=1, high=5)
         # y = np.random.uniform(low=1, high=5)
 
-
         if G.nodes[node]['type'] == 'Switch':
             y = switch_y
             start_x += 1
@@ -163,7 +162,7 @@ def make_file(graph):
        graph: The graph list with the values for the network
     """
     other_path = "/home/mininet/Desktop/"
-    other_path = "/home/gatlin/Desktop/"
+    # other_path = "/home/gatlin/Desktop/"
     new_file = open(other_path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
@@ -185,12 +184,10 @@ def make_file(graph):
             link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
                          + "', '" + str(graph.get('links')[link][1]) + "' )\n"
 
-
     print(host_text)
     print(switch_text)
     print(controller_text)
     print(link_text)
-
 
     # Writing the formatted text to the file
     new_file.write("#Add hosts\n" + host_text + "\n")
@@ -209,7 +206,7 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    #path = "/home/gatlin/Desktop/"
+    # path = "/home/gatlin/Desktop/"
     sudo_pw = "mininet"
     path = "/home/mininet/Desktop/"
 
@@ -245,8 +242,6 @@ def add_to_database(hosts, switches, controllers, links):
     for item in links:
         app.create_links_db(item[0], item[1])
 
-
-
     app.close()
 
 
@@ -254,7 +249,7 @@ def main():
     """
     The main method that creates a path
     """
-    custom_path = "/home/mininet/mininet/custom/"
+    # custom_path = "/home/mininet/mininet/custom/"
 
     # base_file = open(custom_path + "base_file.py", "a")
     #

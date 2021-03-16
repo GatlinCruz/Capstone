@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+      xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -40,10 +41,13 @@
                 <input type="submit" value="Generate Graph" name="graphbtn" style="margin-left: 46px; margin-bottom: 8px">
                 <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
             </div>
-                <hr style="height:2px;border-width:0;color:lightgray;background-color:lightgray">
+                <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">
                 <h2 style="margin-bottom:20px">Database Menu</h2>
                 <div style="background-color:#f3f2f2">
                     <input type="submit" value="Save to Database" name="add_databtn">
+                    <label style="margin-top:20px">Select a csv file to load:</label>
+                    <input type="file" name="load_databtn" id="load_databtn" accept="text/csv, .csv">
+                    <input style="margin-top:5px" type="submit" value="Load" id="submit_filename"/>
                 </div>
         </form>
     </div>
@@ -70,4 +74,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
 </body>
+
+<!--<script>
+
+    var get_file = function() {
+        var fileInput = document.querySelector("#load_databtn");
+        var file = fileInput.files[0];
+        alert(file.name);
+    }
+
+    document.querySelector("#load_databtn").onchange = get_file;
+
+</script>-->
+
 </html>
