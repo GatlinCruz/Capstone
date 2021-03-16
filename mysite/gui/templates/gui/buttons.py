@@ -207,8 +207,8 @@ def run_mininet(extra):
        extra: The holder for the results to be stored to
     """
     path = "/home/gatlin/Desktop/"
-    #sudo_pw = "mininet"
-    sudo_pw = "Davis123!"
+    sudo_pw = "mininet"
+
     #path = "/home/mininet/Desktop/"
 
     command = "python2 " + path + "new_file.py"
