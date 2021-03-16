@@ -118,7 +118,8 @@ class App:
         :param node2: the ending node in the link
         :return: the result of the function call
         """
-        return tx.run("MATCH (a:NODE), (b:NODE) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN type(r)".format(node1, node2))
+        return tx.run("MATCH (a:NODE), (b:NODE) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN "
+                      "type(r)".format(node1, node2))
 
     def create_links_db(self, node1, node2):
         """
@@ -129,6 +130,26 @@ class App:
         """
         with self.driver.session() as session:
             return session.write_transaction(self._create_and_return_links_db, node1, node2)
+
+    def create_csv(self, filename):
+        """
+        Calls the static method _create_csv to export the csv file
+        :param filename: The name of the file
+        :return: The result from the function call
+        """
+        with self.driver.session() as session:
+            return session.write_transaction(self._create_and_return_csv, filename)
+
+    @staticmethod
+    def _create_and_return_csv(tx, filename):
+        """
+        Creates the links between the nodes
+        :param tx: the object that runs the query
+        :param filename: the name of the file
+        :return: the result of the function call
+        """
+        path = "/home/mininet/Desktop/" + str(filename) + ".csv"
+        return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
 
 if __name__ == "__main__":

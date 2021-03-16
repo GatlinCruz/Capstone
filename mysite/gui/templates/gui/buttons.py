@@ -224,7 +224,7 @@ def run_mininet(extra):
     extra['ping'] = errors
 
 
-def add_to_database(hosts, switches, controllers, links):
+def add_to_database(hosts, switches, controllers, links, filename):
     bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
     # The default username for Neo4j
     user = "neo4j"
@@ -241,6 +241,8 @@ def add_to_database(hosts, switches, controllers, links):
 
     for item in links:
         app.create_links_db(item[0], item[1])
+
+    app.create_csv(filename)
 
     app.close()
 

@@ -90,8 +90,9 @@ def home(request):
 
     # This is the logic for when the add_data button is clicked
     elif request.GET.get('add_databtn'):
+        filename = request.GET.get('save_file_name')
         buttons.add_to_database(graph_info['num_hosts'], graph_info['num_switches'],
-                                graph_info['num_controllers'], graph_info['links'])
+                                graph_info['num_controllers'], graph_info['links'], filename)
 
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')

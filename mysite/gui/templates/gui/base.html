@@ -15,7 +15,7 @@
 <header class="site-header">
     <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
-            <a class="navbar-brand mr-4" href="/">Capstone 1</a>
+            <a class="navbar-brand mr-4" href="/">MiniGNC</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -44,10 +44,13 @@
                 <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">
                 <h2 style="margin-bottom:20px">Database Menu</h2>
                 <div style="background-color:#f3f2f2">
-                    <input type="submit" value="Save to Database" name="add_databtn">
+                    <label>Choose a name for the database:</label>
+                    <input type="text" value="example" id="save_file_name" name="save_file_name" />
+                    <input style="margin-top:5px" type="submit" value="Save to Database" name="add_databtn">
+
                     <label style="margin-top:20px">Select a csv file to load:</label>
                     <input type="file" name="load_databtn" id="load_databtn" accept="text/csv, .csv">
-                    <input style="margin-top:5px" type="submit" value="Load" id="submit_filename"/>
+                    <input style="margin-top:5px" type="submit" value="Load" id="submit_load_filename"/>
                 </div>
         </form>
     </div>
