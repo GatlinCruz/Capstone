@@ -173,16 +173,25 @@ def make_file(graph):
     controller_text = ""
     link_text = ""
 
-    for host in range(graph.get('num_hosts')):
-        host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
-    for switch in range(graph.get('num_switches')):
-        switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
-    for controller in range(graph.get('num_controllers')):
-        controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
-    for link in range(len(graph.get('links'))):
-        if str(graph.get('links')[link][0][0]) != "c" and str(graph.get('links')[link][1][0]) != "c":
-            link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
-                         + "', '" + str(graph.get('links')[link][1]) + "' )\n"
+    # for host in range(graph.get('num_hosts')):
+    #     host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
+    # for switch in range(graph.get('num_switches')):
+    #     switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
+    # for controller in range(graph.get('num_controllers')):
+    #     controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
+    # for link in range(len(graph.get('links'))):
+    #     if str(graph.get('links')[link][0][0]) != "c" and str(graph.get('links')[link][1][0]) != "c":
+    #         link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
+    #                      + "', '" + str(graph.get('links')[link][1]) + "' )\n"
+
+    for host in graph.get('hosts'):
+        host_text += host.add_to_file()
+    for switch in graph.get('switches'):
+        switch_text += switch.add_to_file()
+    for controller in graph.get('controllers'):
+        controller_text += controller.add_to_file()
+    for link in graph.get('links'):
+        link_text += link.add_to_file()
 
     print(host_text)
     print(switch_text)

@@ -66,21 +66,22 @@ def home(request):
     """
     # This is the logic for when the set button is clicked
     if request.GET.get('setbtn'):
-        hosts = int(request.GET.get('host'))
-        switches = int(request.GET.get('switch'))
-        controllers = int(request.GET.get('controller'))
-        link = request.GET.get('link').replace(" ", "").split(';')
-        links = []
-        # Getting the linked from the user and formatting them to use
-        for pair in link:
-            links.append(tuple(map(str, pair.split(','))))
+        # hosts = int(request.GET.get('host'))
+        # switches = int(request.GET.get('switch'))
+        # controllers = int(request.GET.get('controller'))
+        # link = request.GET.get('link').replace(" ", "").split(';')
+        # links = []
+        # # Getting the links from the user and formatting them to use
+        # for pair in link:
+        #     links.append(tuple(map(str, pair.split(','))))
+        #
+        # graph_info['num_hosts'] = hosts
+        # graph_info['num_switches'] = switches
+        # graph_info['num_controllers'] = controllers
+        # graph_info['links'] = links
 
-        graph_info['num_hosts'] = hosts
-        graph_info['num_switches'] = switches
-        graph_info['num_controllers'] = controllers
-        graph_info['links'] = links
-
-        buttons.make_file(graph_info)
+        print(graph_nodes)
+        buttons.make_file(graph_nodes)
 
     elif request.GET.get('add_host_btn'):
         name = request.GET.get('add_host_name')

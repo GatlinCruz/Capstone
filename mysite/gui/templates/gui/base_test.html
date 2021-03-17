@@ -49,7 +49,12 @@
             <input type="text" value="s1" id="add_second_link" name="add_second_link" size="4" />
         </form>
 
-        <hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">
+        <form action="#" method="get">
+            <input type="submit" value="Set Parameters" name="setbtn" style="margin-left: 48px; margin-bottom: 8px">
+            <input type="submit" value="Reset Parameters" name="resetbtn" style="margin-left: 40px; margin-bottom: 8px">
+        </form>
+
+        <!--<hr style="height:2px; border-width:0; color:lightgray; background-color:lightgray">
 
         <form action="#" method="get">
             <label style=" margin-left:10px">Number of Hosts: <input type="text" value="{{graph.num_hosts}}" id="host" name="host" size="3" style="width:30px; margin-left: 37px; margin-top: 10px;"/></label>
@@ -64,7 +69,14 @@
         </form>
         <form action="#" method="get">
             <input type="submit" value="Ping All" name="pingbtn" style="margin-left: 72px">
-        </form>
+        </form>-->
+    </div>
+</div>
+
+<div class="content-section" id="info" style="width:16%; float:left; margin:10px">
+    <h2 style="margin-bottom:20px" align="center">Graph Information</h2>
+    <div style="background-color:#f3f2f2">
+        {% block content %}{% endblock %}
     </div>
 </div>
 
@@ -81,13 +93,6 @@
             <input type="file" name="load_databtn" id="load_databtn" accept=".csv">
             <input style="margin-top:5px" type="submit" value="Load" id="submit_load_filename"/>
         </form>
-    </div>
-</div>
-
-<div class="content-section" id="info" style="width:16%; float:left; margin:10px">
-    <h2 style="margin-bottom:20px" align="center">Graph Information</h2>
-    <div style="background-color:#f3f2f2">
-        {% block content %}{% endblock %}
     </div>
 </div>
 

@@ -9,6 +9,9 @@ class Host:
     def __repr__(self):
         return self.name + ": ip - " + self.ip
 
+    def add_to_file(self):
+        return self.name + " = net.addHost( '" + self.name + "' )\n"
+
 
 class Switch:
     def __init__(self, name):
@@ -19,6 +22,9 @@ class Switch:
 
     def __repr__(self):
         return str(self.name)
+
+    def add_to_file(self):
+        return self.name + " = net.addSwitch( '" + self.name + "' )\n"
 
 
 class Controller:
@@ -31,6 +37,9 @@ class Controller:
     def __repr__(self):
         return str(self.name)
 
+    def add_to_file(self):
+        return self.name + " = net.addController( '" + self.name + "' )\n"
+
 
 class Link:
     def __init__(self, first, second):
@@ -42,6 +51,9 @@ class Link:
 
     def __repr__(self):
         return self.first + " <-> " + self.second
+
+    def add_to_file(self):
+        return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
 
 
 graph = {
