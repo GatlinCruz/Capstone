@@ -2,6 +2,7 @@ import importlib.util
 
 from django.shortcuts import render
 from pathlib import Path
+from . import nodes
 import csv
 # from lxml import html
 # import requests
@@ -120,6 +121,12 @@ def home(request):
         print("\n")
         for ot in links_list:
             print(ot)
+
+        host = nodes.Host('h1', '127.0.0.1')
+        switch = nodes.Switch('s1')
+        _controller = nodes.Controller('c1')
+        link = nodes.Link(host, switch)
+        print(link)
 
     return render(request, 'gui/gui.html', context)
 
