@@ -2,24 +2,28 @@
 <html>
 <head>
     <style>
+
         ul {
             background-color: #f1f1f1;
             list-style-type: none;
-            padding: 10px 10px;
+            padding: 5px 0px 5px;
         }
 
-        ul.h {
+        li.h {
             border-left: 3px solid black;
+            padding: 5px 0px 5px 10px;
             margin-left: 10px;
         }
 
-        ul.s {
+        li.s {
             border-left: 3px solid green;
+            padding: 5px 0px 5px 10px;
             margin-left: 10px;
         }
 
-        ul.c {
+        li.c {
             border-left: 3px solid blue;
+            padding: 5px 0px 5px 10px;
             margin-left: 10px;
         }
 
@@ -30,30 +34,30 @@
 {% extends "gui/base_test.html" %}
 {% block content %}
     <h3>Hosts:</h3>
-    <ul class="h">
+    <ul>
         {% for host in graph.hosts %}
-        <li>{{ host }}</li>
+        <li class="h">{{ host }}</li>
         {% endfor %}
     </ul>
 
     <h3>Switches:</h3>
-    <ul class="s">
+    <ul>
         {% for switch in graph.switches %}
-        <li>{{ switch }}</li>
+        <li class="s">{{ switch }}</li>
         {% endfor %}
     </ul>
 
     <h3>Controllers:</h3>
-    <ul class="c">
+    <ul>
         {% for controller in graph.controllers %}
-        <li>{{ controller }}</li>
+        <li class="c">{{ controller }}</li>
         {% endfor %}
     </ul>
 
     <h3>Links:</h3>
-    <ul class="h">
+    <ul>
         {% for link in graph.links %}
-        <li>{{ link }}</li>
+        <li class="h">{{ link }}</li>
         {% endfor %}
     </ul>
 {% endblock content %}
