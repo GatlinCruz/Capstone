@@ -55,6 +55,9 @@ class Link:
     def add_to_file(self):
         return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
 
+    def to_tuple(self):
+        return tuple((self.first, self.second))
+
 
 graph = {
     "hosts": [],

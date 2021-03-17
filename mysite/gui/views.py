@@ -107,8 +107,7 @@ def home(request):
 
     # This is the logic for when the graph button is clicked
     elif request.GET.get('graphbtn'):
-        buttons.make_graph(graph_info['num_hosts'], graph_info['num_switches'],
-                           graph_info['num_controllers'], graph_info['links'])
+        buttons.make_graph(graph_nodes)
         return render(request, 'gui/figure.html', context)
 
     # This is the logic for when the reset button is clicked

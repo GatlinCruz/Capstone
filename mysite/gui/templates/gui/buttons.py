@@ -30,7 +30,7 @@ np.random.seed(1)
 filename = ''
 
 
-def make_graph(hosts, switches, controllers, links):
+def make_graph(graph):
     """
     This setups up the graph based on the parameters from the user and makes an HTML file of the graph
     args:
@@ -42,21 +42,22 @@ def make_graph(hosts, switches, controllers, links):
     # The graph object used to build the network throughout the function
     nx_graph = nx.Graph()
 
-    nx_graph.add_edges_from(links)
+    link_list = []
+    for link in graph.get('links'):
+        link_list.append(link.to_tuple())
+
+    nx_graph.add_edges_from(link_list)
 
     # Adds a node for each number of host, switch and controller
-    for switch in range(0, switches):
-        s_name = "s" + str(switch + 1)
-        nx_graph.add_node(s_name, type='Switch', color='green', name=s_name)
-        print("Added switch " + "s" + str(switch + 1))
-    for controller in range(0, controllers):
-        c_name = "c" + str(controller + 1)
-        nx_graph.add_node(c_name, type='Controller', color='blue', name=c_name)
-        print("Added controller " + "c" + str(controller + 1))
-    for host in range(0, hosts):
-        h_name = "h" + str(host + 1)
-        nx_graph.add_node(h_name, type='Host', color='black', name=h_name)
-        print("Added host " + "h" + str(host + 1))
+    for switch in graph.get('switches'):
+        nx_graph.add_node(switch.name, type='Switch', color='green', name=switch.name)
+        print("Added switch " + switch.name)
+    for controller in graph.get('controllers'):
+        nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name)
+        print("Added controller " + controller.name)
+    for host in graph.get('hosts'):
+        nx_graph.add_node(host.name, type='Host', color='black', name=host.name)
+        print("Added host " + host.name)
 
     node_x = []
     node_y = []
@@ -66,8 +67,6 @@ def make_graph(hosts, switches, controllers, links):
     switch_y = 5
     cont_y = 8
     for node in nx_graph.nodes():
-        # x = np.random.uniform(low=1, high=5)
-        # y = np.random.uniform(low=1, high=5)
 
         if nx_graph.nodes[node]['type'] == 'Switch':
             y = switch_y
@@ -136,9 +135,6 @@ def make_graph(hosts, switches, controllers, links):
                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                     )
 
-    # if os.path.exists(PATH + 'figure.html'):
-    #    fig.write_html(PATH + ('figure_{}.html'.format(int(time.time()))))
-    # else:
     fig.write_html(PATH + 'figure.html')
 
 
