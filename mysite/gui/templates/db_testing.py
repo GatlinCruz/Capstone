@@ -103,15 +103,15 @@ class App:
 
         return tx.run(query, node=node, graph_name=graph_name).single()
 
-    def create_node(self, person1_name, graph_name):
+    def create_node(self, node_name, graph_name):
         """
         Calls the static method _create_and_return to add a single node
         :param graph_name: the name of the graph
-        :param person1_name: The name of the node
+        :param node_name: The name of the node
         :return: The result from the function call
         """
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_node, person1_name, graph_name)
+            return session.write_transaction(self._create_and_return_node, node_name, graph_name)
 
     @staticmethod
     def _create_and_return_links_db(tx, node1, node2, graph_name):

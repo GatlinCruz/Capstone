@@ -140,14 +140,12 @@ def make_graph(graph):
 
 def reset_graph(graph):
     """
-    Resets the values of the graph to 0
+    Resets the values of the graph to empty lists
     args:
       graph: The graph list being used
     """
-    graph['hosts'] = []
-    graph['switches'] = []
-    graph['controllers'] = []
-    graph['links'] = []
+    for key in graph.keys():
+        graph[key] = []
 
 
 def make_file(graph):
@@ -168,17 +166,6 @@ def make_file(graph):
     switch_text = ""
     controller_text = ""
     link_text = ""
-
-    # for host in range(graph.get('num_hosts')):
-    #     host_text += "h" + str(host + 1) + " = net.addHost( 'h" + str(host + 1) + "' )\n"
-    # for switch in range(graph.get('num_switches')):
-    #     switch_text += "s" + str(switch + 1) + " = net.addSwitch( 's" + str(switch + 1) + "' )\n"
-    # for controller in range(graph.get('num_controllers')):
-    #     controller_text += "c" + str(controller + 1) + " = net.addController( 'c" + str(controller + 1) + "' )\n"
-    # for link in range(len(graph.get('links'))):
-    #     if str(graph.get('links')[link][0][0]) != "c" and str(graph.get('links')[link][1][0]) != "c":
-    #         link_text += "l" + str(link + 1) + " = net.addLink( '" + str(graph.get('links')[link][0]) \
-    #                      + "', '" + str(graph.get('links')[link][1]) + "' )\n"
 
     for host in graph.get('hosts'):
         host_text += host.add_to_file()
@@ -230,23 +217,24 @@ def run_mininet(extra):
     extra['ping'] = errors
 
 
-def add_to_database(hosts, switches, controllers, links, graph_name):
-    bolt_url = "neo4j://localhost:7687"  # %%BOLT_URL_PLACEHOLDER%%
+def add_to_database(graph, graph_name):
+
+    bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
     # The password we use to gain access to the database
     password = "mininet"
     # Creating an app object from the db_testing file
     app = db_testing.App(bolt_url, user, password)
-    for i in range(hosts):
-        app.create_node("h" + str(i + 1), graph_name)
-    for i in range(switches):
-        app.create_node("s" + str(i + 1), graph_name)
-    for i in range(controllers):
-        app.create_node("c" + str(i + 1), graph_name)
 
-    for item in links:
-        app.create_links_db(item[0], item[1], graph_name)
+    for host in graph.get('hosts'):
+        app.create_node(host.name, graph_name)
+    for switch in graph.get('switches'):
+        app.create_node(switch.name, graph_name)
+    for controller in graph.get('controllers'):
+        app.create_node(controller.name, graph_name)
+    for link in graph.get('links'):
+        app.create_links_db(link.first, link.second, graph_name)
 
     app.create_csv(graph_name)
 

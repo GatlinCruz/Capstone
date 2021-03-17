@@ -50,7 +50,7 @@ class Link:
         return self.first + " <-> " + self.second
 
     def __repr__(self):
-        return self.first + " <-> " + self.second
+        return str(self.first) + " <-> " + str(self.second)
 
     def add_to_file(self):
         return self.first + self.second + " = net.addLink( '" + self.first + "', " + "'" + self.second + "' )\n"
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     print(c1)
 
     l1 = Link(h1, s1)
-    print(l1)
+    print("l1 first name: " + l1.first.name)
 
     graph['hosts'].append(h1)
     graph['switches'].append(s1)

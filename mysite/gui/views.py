@@ -66,39 +66,29 @@ def home(request):
     """
     # This is the logic for when the set button is clicked
     if request.GET.get('setbtn'):
-        # hosts = int(request.GET.get('host'))
-        # switches = int(request.GET.get('switch'))
-        # controllers = int(request.GET.get('controller'))
-        # link = request.GET.get('link').replace(" ", "").split(';')
-        # links = []
-        # # Getting the links from the user and formatting them to use
-        # for pair in link:
-        #     links.append(tuple(map(str, pair.split(','))))
-        #
-        # graph_info['num_hosts'] = hosts
-        # graph_info['num_switches'] = switches
-        # graph_info['num_controllers'] = controllers
-        # graph_info['links'] = links
-
         print(graph_nodes)
         buttons.make_file(graph_nodes)
 
+    # This is the logic for when the add host button is clicked
     elif request.GET.get('add_host_btn'):
         name = request.GET.get('add_host_name')
         ip = request.GET.get('add_host_ip')
         host = nodes.Host(name, ip)
         graph_nodes['hosts'].append(host)
 
+    # This is the logic for when the add switch button is clicked
     elif request.GET.get('add_switch_btn'):
         name = request.GET.get('add_switch_name')
         switch = nodes.Switch(name)
         graph_nodes['switches'].append(switch)
 
+    # This is the logic for when the add controller button is clicked
     elif request.GET.get('add_controller_btn'):
         name = request.GET.get('add_controller_name')
         controller = nodes.Controller(name)
         graph_nodes['controllers'].append(controller)
 
+    # This is the logic for when the add link button is clicked
     elif request.GET.get('add_link_btn'):
         first = request.GET.get('add_first_link')
         second = request.GET.get('add_second_link')
@@ -121,9 +111,9 @@ def home(request):
     # This is the logic for when the add_data button is clicked
     elif request.GET.get('add_databtn'):
         filename = request.GET.get('save_file_name')
-        buttons.add_to_database(graph_info['num_hosts'], graph_info['num_switches'],
-                                graph_info['num_controllers'], graph_info['links'], filename)
+        buttons.add_to_database(graph_nodes, filename)
 
+    # This is the logic for when the load_data button is clicked
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
         path = str(Path.home()) + "/Desktop/" + file
