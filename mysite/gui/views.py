@@ -117,22 +117,46 @@ def home(request):
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
         path = str(Path.home()) + "/Desktop/" + file
-        nodes_list = []
+        host_list = []
+        switch_list = []
+        controller_list = []
         links_list = []
+        full_list = []
         with open(path, newline='') as csv_file:
             csv_r = csv.DictReader(csv_file)
             for row in csv_r:
-                if row['_id'] != '':
-                    nodes_list.append(row)
-
+                full_list.append(row)
+                if row['type'] == 'host':
+                    host_list.append(row)
+                elif row['type'] == 'switch':
+                    switch_list.append(row)
+                elif row['type'] == 'controller':
+                    controller_list.append(row)
                 else:
                     links_list.append(row)
-
-        for item in nodes_list:
-            print(item)
+        for item in host_list:
+            graph_nodes['hosts'].append(nodes.Host(item.get('name'), item.get('ip')))
         print("\n")
-        for ot in links_list:
-            print(ot)
+        for item in switch_list:
+            graph_nodes['switches'].append(nodes.Switch(item.get('name')))
+        print("\n")
+        for item in controller_list:
+            graph_nodes['controllers'].append(nodes.Controller(item.get('name')))
+        # Gets the start and end id and finds them in 'full_list to create a link
+        f, s = "", ""
+        for item in links_list:
+            first_id = item['_start']
+            second_id = item['_end']
+            for row in full_list:
+                if row.get('_id') == first_id:
+                    f = row.get('name')
+                    break
+            for row in full_list:
+                if row.get('_id') == second_id:
+                    s = row.get('name')
+                    break
+            graph_nodes['links'].append(nodes.Link(f, s))
+
 
     return render(request, 'gui/gui.html', context)
 

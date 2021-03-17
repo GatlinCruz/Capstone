@@ -228,11 +228,11 @@ def add_to_database(graph, graph_name):
     app = db_testing.App(bolt_url, user, password)
 
     for host in graph.get('hosts'):
-        app.create_node(host.name, graph_name)
+        app.create_node(host.name, graph_name, 'host', host.ip)
     for switch in graph.get('switches'):
-        app.create_node(switch.name, graph_name)
+        app.create_node(switch.name, graph_name, 'switch')
     for controller in graph.get('controllers'):
-        app.create_node(controller.name, graph_name)
+        app.create_node(controller.name, graph_name, 'controller')
     for link in graph.get('links'):
         app.create_links_db(link.first, link.second, graph_name)
 

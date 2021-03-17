@@ -92,18 +92,21 @@ class App:
         return [row["name"] for row in result]
 
     @staticmethod
-    def _create_and_return_node(tx, node, graph_name):
+    def _create_and_return_node(tx, node, graph_name, node_type, ip=None):
         """
         Creates a node to the database
         :param tx: The tx object used to run the command
         :param node: The node object that's being added
         :return: The result from the function call
         """
-        query = ("CREATE (p1:" + str(graph_name) + "{ name: $node }) RETURN p1")
+        if ip == None:
+            query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' }) RETURN p1")
+        else:
+            query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' , ip: '" + str(ip) + "' }) RETURN p1")
 
         return tx.run(query, node=node, graph_name=graph_name).single()
 
-    def create_node(self, node_name, graph_name):
+    def create_node(self, node_name, graph_name, node_type, ip=None):
         """
         Calls the static method _create_and_return to add a single node
         :param graph_name: the name of the graph
@@ -111,7 +114,7 @@ class App:
         :return: The result from the function call
         """
         with self.driver.session() as session:
-            return session.write_transaction(self._create_and_return_node, node_name, graph_name)
+            return session.write_transaction(self._create_and_return_node, node_name, graph_name, node_type, ip)
 
     @staticmethod
     def _create_and_return_links_db(tx, node1, node2, graph_name):
