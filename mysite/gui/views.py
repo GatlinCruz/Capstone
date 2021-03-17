@@ -3,9 +3,9 @@ import importlib.util
 from django.shortcuts import render
 from pathlib import Path
 import csv
-from lxml import html
-import requests
-from bs4 import BeautifulSoup
+# from lxml import html
+# import requests
+# from bs4 import BeautifulSoup
 
 """
 This files is a generated file from Django that we use
@@ -17,11 +17,11 @@ __version__: 9/15/20
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-###### For Windows
+# For Windows
 """This is the path we use when running on a windows machine"""
 # spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
 
-###### For Mac
+# For Mac
 """This is the path we use when running on a mac/linux machine"""
 spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "/gui/templates/gui/buttons.py")
 
@@ -30,11 +30,11 @@ spec.loader.exec_module(buttons)
 
 """This graph info is linked to the HTML doc for our GUI. The values are stored in this list"""
 graph_info = {
-        'num_hosts': 0,
-        'num_switches': 0,
-        'num_controllers': 0,
-        'links': []
-        }
+    'num_hosts': 0,
+    'num_switches': 0,
+    'num_controllers': 0,
+    'links': []
+}
 
 """This is the extra text used to display the ping results from Mininet"""
 extra_text = {
@@ -47,10 +47,12 @@ extra_text = {
 
 """This is how Django connects the lists to the HTML"""
 context = {
-        'graph': graph_info,
-        'output': extra_text,
+    'graph': graph_info,
+    'output': extra_text,
 
-    }
+}
+
+
 # 'database': database_info
 
 
@@ -101,13 +103,13 @@ def home(request):
 
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
-        path= "/home/gatlin/Desktop/example.csv"
+        path = str(Path.home()) + "/Desktop/" + file
         nodes_list = []
         links_list = []
         with open(path, newline='') as csv_file:
             csv_r = csv.DictReader(csv_file)
             for row in csv_r:
-                if(row['_id'] != ''):
+                if row['_id'] != '':
                     nodes_list.append(row)
 
                 else:
@@ -118,9 +120,6 @@ def home(request):
         print("\n")
         for ot in links_list:
             print(ot)
-
-
-
 
     return render(request, 'gui/gui.html', context)
 

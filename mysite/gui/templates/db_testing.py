@@ -5,15 +5,14 @@ from neo4j.exceptions import ServiceUnavailable
 
 class App:
 
-    def __init__(self, uri, user, password):
+    def __init__(self, uri, username, pw):
         """
         The constructor for the App object
         :param uri: The uri that is being used
-        :param user: The username that is used to gain access to the database
-        :param password: The password that is used to gain access to the database
+        :param username: The username that is used to gain access to the database
+        :param pw: The password that is used to gain access to the database
         """
-        self.driver = GraphDatabase.driver(uri, auth=(user, password))
-
+        self.driver = GraphDatabase.driver(uri, auth=(username, pw))
 
     def close(self):
         """
@@ -106,6 +105,7 @@ class App:
     def create_node(self, person1_name, graph_name):
         """
         Calls the static method _create_and_return to add a single node
+        :param graph_name: the name of the graph
         :param person1_name: The name of the node
         :return: The result from the function call
         """
@@ -123,11 +123,12 @@ class App:
         """
 
         return tx.run("MATCH (a:{}), (b:{}) WHERE a.name = '{}' AND b.name = '{}'CREATE (a)-[r:PORT]->(b)RETURN "
-                      "type(r)".format(graph_name, graph_name,node1, node2))
+                      "type(r)".format(graph_name, graph_name, node1, node2))
 
     def create_links_db(self, node1, node2, graph_name):
         """
         Calls _create_and_return_links_db method
+        :param graph_name: the name of the graph
         :param node1: the starting node in the link
         :param node2: the ending node in the link
         :return: the result of the function call
@@ -152,8 +153,8 @@ class App:
         :param filename: the name of the file
         :return: the result of the function call
         """
-        #path = "/home/mininet/Desktop/" + str(filename) + ".csv"
-        path = "/home/gatlin/Desktop/" + str(filename) + ".csv"
+        # path = "/home/mininet/Desktop/" + str(filename) + ".csv"
+        path = "~/Desktop/" + str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
 

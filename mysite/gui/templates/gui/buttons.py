@@ -3,7 +3,6 @@ import networkx as nx
 import numpy as np
 from pathlib import Path
 import os
-import time
 import subprocess
 import importlib.util
 
@@ -16,11 +15,11 @@ __version__ 9/15/20
 BASE_DIR = Path(__file__).resolve().parent.parent
 PATH = os.path.join(BASE_DIR, "gui/")
 
-###### For Windows
+# For Windows
 """This is the path we use when running on a windows machine"""
 # spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "\\gui\\templates\\gui\\buttons.py")
 
-###### For Mac
+# For Mac
 """This is the path we use when running on a mac/linux machine"""
 spec = importlib.util.spec_from_file_location("db_testing", str(BASE_DIR) + "/db_testing.py")
 
@@ -41,22 +40,22 @@ def make_graph(hosts, switches, controllers, links):
      links: The links in the graph
     """
     # The graph object used to build the network throughout the function
-    G = nx.Graph()
+    nx_graph = nx.Graph()
 
-    G.add_edges_from(links)
+    nx_graph.add_edges_from(links)
 
     # Adds a node for each number of host, switch and controller
     for switch in range(0, switches):
         s_name = "s" + str(switch + 1)
-        G.add_node(s_name, type='Switch', color='green', name=s_name)
+        nx_graph.add_node(s_name, type='Switch', color='green', name=s_name)
         print("Added switch " + "s" + str(switch + 1))
     for controller in range(0, controllers):
         c_name = "c" + str(controller + 1)
-        G.add_node(c_name, type='Controller', color='blue', name=c_name)
+        nx_graph.add_node(c_name, type='Controller', color='blue', name=c_name)
         print("Added controller " + "c" + str(controller + 1))
     for host in range(0, hosts):
         h_name = "h" + str(host + 1)
-        G.add_node(h_name, type='Host', color='black', name=h_name)
+        nx_graph.add_node(h_name, type='Host', color='black', name=h_name)
         print("Added host " + "h" + str(host + 1))
 
     node_x = []
@@ -66,17 +65,17 @@ def make_graph(hosts, switches, controllers, links):
     last_switch_x = -1
     switch_y = 5
     cont_y = 8
-    for node in G.nodes():
+    for node in nx_graph.nodes():
         # x = np.random.uniform(low=1, high=5)
         # y = np.random.uniform(low=1, high=5)
 
-        if G.nodes[node]['type'] == 'Switch':
+        if nx_graph.nodes[node]['type'] == 'Switch':
             y = switch_y
             start_x += 1
             x = start_x
             last_switch_x = x
 
-        elif G.nodes[node]['type'] == 'Controller':
+        elif nx_graph.nodes[node]['type'] == 'Controller':
             y = cont_y
             x = last_switch_x
             last_switch_x += 3
@@ -85,8 +84,8 @@ def make_graph(hosts, switches, controllers, links):
             y = host_y
             x = start_x
 
-        G.nodes[node]['pos'] = x, y
-        x, y = G.nodes[node]['pos']
+        nx_graph.nodes[node]['pos'] = x, y
+        x, y = nx_graph.nodes[node]['pos']
         node_x.append(x)
         node_y.append(y)
 
@@ -100,9 +99,9 @@ def make_graph(hosts, switches, controllers, links):
 
     edge_x = []
     edge_y = []
-    for edge in G.edges():
-        x0, y0 = G.nodes[edge[0]]['pos']
-        x1, y1 = G.nodes[edge[1]]['pos']
+    for edge in nx_graph.edges():
+        x0, y0 = nx_graph.nodes[edge[0]]['pos']
+        x1, y1 = nx_graph.nodes[edge[1]]['pos']
         edge_x.append(x0)
         edge_x.append(x1)
         edge_x.append(None)
@@ -118,9 +117,9 @@ def make_graph(hosts, switches, controllers, links):
 
     node_text = []
     node_color = []
-    for node in G.nodes():
-        node_text.append(G.nodes[node]['name'])  # type
-        node_color.append(G.nodes[node]['color'])
+    for node in nx_graph.nodes():
+        node_text.append(nx_graph.nodes[node]['name'])  # type
+        node_color.append(nx_graph.nodes[node]['color'])
     node_trace.marker.color = node_color
     node_trace.text = node_text
     node_trace.textfont = dict(
@@ -161,9 +160,10 @@ def make_file(graph):
     args:
        graph: The graph list with the values for the network
     """
-    #other_path = "/home/mininet/Desktop/"
-    other_path = "/home/gatlin/Desktop/"
-    new_file = open(other_path + "new_file.py", "w+")
+
+    path = str(Path.home()) + "/Desktop/"
+
+    new_file = open(path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\n")
     new_file.write("from mininet.cli import CLI\n")
     new_file.write("net = Mininet()\n")
@@ -206,10 +206,10 @@ def run_mininet(extra):
     args:
        extra: The holder for the results to be stored to
     """
-    path = "/home/gatlin/Desktop/"
-    sudo_pw = "mininet"
 
-    #path = "/home/mininet/Desktop/"
+    path = str(Path.home()) + "/Desktop/"
+
+    sudo_pw = "mininet"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
