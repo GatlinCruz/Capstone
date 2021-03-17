@@ -1,6 +1,7 @@
 from neo4j import GraphDatabase
 import logging
 from neo4j.exceptions import ServiceUnavailable
+from pathlib import Path
 
 
 class App:
@@ -153,8 +154,8 @@ class App:
         :param filename: the name of the file
         :return: the result of the function call
         """
-        # path = "/home/mininet/Desktop/" + str(filename) + ".csv"
-        path = "~/Desktop/" + str(filename) + ".csv"
+
+        path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
 

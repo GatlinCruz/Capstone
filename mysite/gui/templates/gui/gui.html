@@ -1,10 +1,61 @@
-{% extends "gui/base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        ul {
+            background-color: #f1f1f1;
+            list-style-type: none;
+            padding: 10px 10px;
+        }
 
+        ul.h {
+            border-left: 3px solid black;
+            margin-left: 10px;
+        }
+
+        ul.s {
+            border-left: 3px solid green;
+            margin-left: 10px;
+        }
+
+        ul.c {
+            border-left: 3px solid blue;
+            margin-left: 10px;
+        }
+
+    </style>
+</head>
+</html>
+
+{% extends "gui/base_test.html" %}
 {% block content %}
-    <h1>Hosts: {{graph.num_hosts}}</h1>
-    <h1>Switches: {{graph.num_switches}}</h1>
-    <h1>Controllers: {{graph.num_controllers}}</h1>
-    <h1>Links: {{graph.links}}</h1>
+    <h3>Hosts:</h3>
+    <ul class="h">
+        {% for host in graph.hosts %}
+        <li>{{ host }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Switches:</h3>
+    <ul class="s">
+        {% for switch in graph.switches %}
+        <li>{{ switch }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Controllers:</h3>
+    <ul class="c">
+        {% for controller in graph.controllers %}
+        <li>{{ controller }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Links:</h3>
+    <ul class="h">
+        {% for link in graph.links %}
+        <li>{{ link }}</li>
+        {% endfor %}
+    </ul>
 {% endblock content %}
 
 {% block output %}

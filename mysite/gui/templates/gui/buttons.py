@@ -148,9 +148,9 @@ def reset_graph(graph):
     args:
       graph: The graph list being used
     """
-    graph['num_hosts'] = 0
-    graph['num_switches'] = 0
-    graph['num_controllers'] = 0
+    graph['hosts'] = []
+    graph['switches'] = []
+    graph['controllers'] = []
     graph['links'] = []
 
 

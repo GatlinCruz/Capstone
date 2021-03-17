@@ -4,10 +4,10 @@ class Host:
         self.ip = ip
 
     def __str__(self):
-        return "name - " + self.name + ": ip - " + self.ip
+        return self.name + ": ip - " + self.ip
 
     def __repr__(self):
-        return "possibly the Mininet representation..."
+        return self.name + ": ip - " + self.ip
 
 
 class Switch:
@@ -15,7 +15,10 @@ class Switch:
         self.name = name
 
     def __str__(self):
-        return "name - " + self.name
+        return str(self.name)
+
+    def __repr__(self):
+        return str(self.name)
 
 
 class Controller:
@@ -23,7 +26,10 @@ class Controller:
         self.name = name
 
     def __str__(self):
-        return "name - " + self.name
+        return str(self.name)
+
+    def __repr__(self):
+        return str(self.name)
 
 
 class Link:
@@ -32,7 +38,10 @@ class Link:
         self.second = second
 
     def __str__(self):
-        return "Link from (" + str(self.first) + ") to (" + str(self.second) + ")"
+        return self.first + " <-> " + self.second
+
+    def __repr__(self):
+        return self.first + " <-> " + self.second
 
 
 graph = {

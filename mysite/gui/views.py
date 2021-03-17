@@ -29,11 +29,19 @@ spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "/gui/t
 buttons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(buttons)
 
-"""This graph info is linked to the HTML doc for our GUI. The values are stored in this list"""
+"""This graph info is linked to the HTML doc for our GUI. The values are stored in this dict"""
 graph_info = {
     'num_hosts': 0,
     'num_switches': 0,
     'num_controllers': 0,
+    'links': []
+}
+
+"""This graph nodes is linked to the HTML doc for our GUI. The values are stored in this dict"""
+graph_nodes = {
+    'hosts': [],
+    'switches': [],
+    'controllers': [],
     'links': []
 }
 
@@ -42,19 +50,11 @@ extra_text = {
     'ping': ""
 }
 
-# database_info = {
-#     'selected_file': ""
-# }
-
 """This is how Django connects the lists to the HTML"""
 context = {
-    'graph': graph_info,
+    'graph': graph_nodes,
     'output': extra_text,
-
 }
-
-
-# 'database': database_info
 
 
 def home(request):
@@ -82,6 +82,28 @@ def home(request):
 
         buttons.make_file(graph_info)
 
+    elif request.GET.get('add_host_btn'):
+        name = request.GET.get('add_host_name')
+        ip = request.GET.get('add_host_ip')
+        host = nodes.Host(name, ip)
+        graph_nodes['hosts'].append(host)
+
+    elif request.GET.get('add_switch_btn'):
+        name = request.GET.get('add_switch_name')
+        switch = nodes.Switch(name)
+        graph_nodes['switches'].append(switch)
+
+    elif request.GET.get('add_controller_btn'):
+        name = request.GET.get('add_controller_name')
+        controller = nodes.Controller(name)
+        graph_nodes['controllers'].append(controller)
+
+    elif request.GET.get('add_link_btn'):
+        first = request.GET.get('add_first_link')
+        second = request.GET.get('add_second_link')
+        link = nodes.Link(first, second)
+        graph_nodes['links'].append(link)
+
     # This is the logic for when the graph button is clicked
     elif request.GET.get('graphbtn'):
         buttons.make_graph(graph_info['num_hosts'], graph_info['num_switches'],
@@ -90,7 +112,7 @@ def home(request):
 
     # This is the logic for when the reset button is clicked
     elif request.GET.get('resetbtn'):
-        buttons.reset_graph(graph_info)
+        buttons.reset_graph(graph_nodes)
 
     # This is the logic for when the ping button is clicked
     elif request.GET.get('pingbtn'):
@@ -121,12 +143,6 @@ def home(request):
         print("\n")
         for ot in links_list:
             print(ot)
-
-        host = nodes.Host('h1', '127.0.0.1')
-        switch = nodes.Switch('s1')
-        _controller = nodes.Controller('c1')
-        link = nodes.Link(host, switch)
-        print(link)
 
     return render(request, 'gui/gui.html', context)
 
