@@ -99,16 +99,19 @@ class App:
         :param node: The node object that's being added
         :return: The result from the function call
         """
-        if ip == None:
+        if ip is None:
             query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' }) RETURN p1")
         else:
-            query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" + str(node_type) + "' , ip: '" + str(ip) + "' }) RETURN p1")
+            query = ("CREATE (p1:" + str(graph_name) + "{ name: $node, type: '" +
+                     str(node_type) + "' , ip: '" + str(ip) + "' }) RETURN p1")
 
         return tx.run(query, node=node, graph_name=graph_name).single()
 
     def create_node(self, node_name, graph_name, node_type, ip=None):
         """
         Calls the static method _create_and_return to add a single node
+        :param ip: The IP of the node if it is specified, or None otherwise
+        :param node_type: The type of the node (host, switch, or controller)
         :param graph_name: the name of the graph
         :param node_name: The name of the node
         :return: The result from the function call

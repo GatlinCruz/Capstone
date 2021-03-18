@@ -145,7 +145,7 @@ def reset_graph(graph):
       graph: The graph list being used
     """
     for key in graph.keys():
-        graph[key] = []
+        graph[key].clear()
 
 
 def make_file(graph):
@@ -158,38 +158,17 @@ def make_file(graph):
     path = str(Path.home()) + "/Desktop/"
 
     new_file = open(path + "new_file.py", "w+")
-    new_file.write("from mininet.net import Mininet\n")
-    new_file.write("from mininet.cli import CLI\n")
-    new_file.write("net = Mininet()\n")
+    new_file.write("from mininet.net import Mininet\nfrom mininet.cli import CLI\nnet = Mininet()\n")
 
-    host_text = ""
-    switch_text = ""
-    controller_text = ""
-    link_text = ""
+    for key in graph.keys():
+        for node in graph.get(key):
+            new_file.write(node.add_to_file())
+        new_file.write("\n")
 
     for host in graph.get('hosts'):
-        host_text += host.add_to_file()
-    for switch in graph.get('switches'):
-        switch_text += switch.add_to_file()
-    for controller in graph.get('controllers'):
-        controller_text += controller.add_to_file()
-    for link in graph.get('links'):
-        link_text += link.add_to_file()
+        new_file.write(host.add_ip_to_file())
 
-    print(host_text)
-    print(switch_text)
-    print(controller_text)
-    print(link_text)
-
-    # Writing the formatted text to the file
-    new_file.write("#Add hosts\n" + host_text + "\n")
-    new_file.write("#Add switches\n" + switch_text + "\n")
-    new_file.write("#Add controllers\n" + controller_text + "\n")
-    new_file.write("#Add links\n" + link_text + "\n")
-
-    new_file.write("\nnet.start()\n")
-    new_file.write("net.pingAll()\n")
-    new_file.write("net.stop()\n")
+    new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
 
 
 def run_mininet(extra):

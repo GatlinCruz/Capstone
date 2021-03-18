@@ -29,14 +29,6 @@ spec = importlib.util.spec_from_file_location("buttons", str(BASE_DIR) + "/gui/t
 buttons = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(buttons)
 
-"""This graph info is linked to the HTML doc for our GUI. The values are stored in this dict"""
-graph_info = {
-    'num_hosts': 0,
-    'num_switches': 0,
-    'num_controllers': 0,
-    'links': []
-}
-
 """This graph nodes is linked to the HTML doc for our GUI. The values are stored in this dict"""
 graph_nodes = {
     'hosts': [],
@@ -117,46 +109,49 @@ def home(request):
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
         path = str(Path.home()) + "/Desktop/" + file
-        host_list = []
-        switch_list = []
-        controller_list = []
-        links_list = []
+        # host_list = []
+        # switch_list = []
+        # controller_list = []
+        # links_list = []
         full_list = []
+
         with open(path, newline='') as csv_file:
             csv_r = csv.DictReader(csv_file)
+
             for row in csv_r:
                 full_list.append(row)
-                if row['type'] == 'host':
-                    host_list.append(row)
-                elif row['type'] == 'switch':
-                    switch_list.append(row)
-                elif row['type'] == 'controller':
-                    controller_list.append(row)
-                else:
-                    links_list.append(row)
-        for item in host_list:
-            graph_nodes['hosts'].append(nodes.Host(item.get('name'), item.get('ip')))
-        print("\n")
-        for item in switch_list:
-            graph_nodes['switches'].append(nodes.Switch(item.get('name')))
-        print("\n")
-        for item in controller_list:
-            graph_nodes['controllers'].append(nodes.Controller(item.get('name')))
-        # Gets the start and end id and finds them in 'full_list to create a link
-        f, s = "", ""
-        for item in links_list:
-            first_id = item['_start']
-            second_id = item['_end']
-            for row in full_list:
-                if row.get('_id') == first_id:
-                    f = row.get('name')
-                    break
-            for row in full_list:
-                if row.get('_id') == second_id:
-                    s = row.get('name')
-                    break
-            graph_nodes['links'].append(nodes.Link(f, s))
+                if row['_labels'] == ":" + file.replace(".csv", ""):
+                    if row['type'] == 'host':
+                        graph_nodes['hosts'].append(nodes.Host(row.get('name'), row.get('ip')))
+                    elif row['type'] == 'switch':
+                        graph_nodes['switches'].append(nodes.Switch(row.get('name')))
+                    elif row['type'] == 'controller':
+                        graph_nodes['controllers'].append(nodes.Controller(row.get('name')))
 
+                if row['_start'] != "":
+                    first_index = row.get('_start')
+                    second_index = row.get('_end')
+                    for item in full_list:
+                        if item.get('_id') == first_index:
+                            first = item.get('name')
+                    for item in full_list:
+                        if item.get('_id') == second_index:
+                            second = item.get('name')
+                    graph_nodes['links'].append(nodes.Link(first, second))
+
+        # f, s = "", ""
+        # for item in links_list:
+        #     first_id = item['_start']
+        #     second_id = item['_end']
+        #     for row in full_list:
+        #         if row.get('_id') == first_id:
+        #             f = row.get('name')
+        #             break
+        #     for row in full_list:
+        #         if row.get('_id') == second_id:
+        #             s = row.get('name')
+        #             break
+        #     graph_nodes['links'].append(nodes.Link(f, s))
 
     return render(request, 'gui/gui.html', context)
 

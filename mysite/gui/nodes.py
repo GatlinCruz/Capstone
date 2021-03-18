@@ -12,6 +12,9 @@ class Host:
     def add_to_file(self):
         return self.name + " = net.addHost( '" + self.name + "' )\n"
 
+    def add_ip_to_file(self):
+        return self.name + ".setIP( '" + self.ip + "' )\n"
+
 
 class Switch:
     def __init__(self, name):
