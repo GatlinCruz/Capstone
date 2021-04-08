@@ -140,7 +140,10 @@ def home(request):
                     graph_nodes['links'].append(nodes.Link(first, second))
 
     elif request.GET.get('iperf_btn'):
-        buttons.make_file(graph_nodes, False)
+        host1 = request.GET.get('iperf_host1_name')
+        host2 = request.GET.get('iperf_host2_name')
+
+        buttons.make_file(graph_nodes, False, host1, host2)
         buttons.run_mininet(extra_text)
 
         # f, s = "", ""
