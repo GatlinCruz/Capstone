@@ -96,8 +96,13 @@ def home(request):
     elif request.GET.get('resetbtn'):
         buttons.reset_graph(graph_nodes)
 
+    elif request.GET.get('clearoutputbtn'):
+        buttons.clear_output(extra_text)
+
     # This is the logic for when the ping button is clicked
     elif request.GET.get('pingbtn'):
+        buttons.make_file(graph_nodes)
+        buttons.add_ping_all()
         buttons.run_mininet(extra_text)
 
     # This is the logic for when the add_data button is clicked
@@ -109,10 +114,6 @@ def home(request):
     elif request.GET.get('load_databtn'):
         file = request.GET.get('load_databtn')
         path = str(Path.home()) + "/Desktop/" + file
-        # host_list = []
-        # switch_list = []
-        # controller_list = []
-        # links_list = []
         full_list = []
 
         with open(path, newline='') as csv_file:
@@ -143,22 +144,9 @@ def home(request):
         host1 = request.GET.get('iperf_host1_name')
         host2 = request.GET.get('iperf_host2_name')
 
-        buttons.make_file(graph_nodes, False, host1, host2)
+        buttons.make_file(graph_nodes)
+        buttons.add_iperf(host1, host2)
         buttons.run_mininet(extra_text)
-
-        # f, s = "", ""
-        # for item in links_list:
-        #     first_id = item['_start']
-        #     second_id = item['_end']
-        #     for row in full_list:
-        #         if row.get('_id') == first_id:
-        #             f = row.get('name')
-        #             break
-        #     for row in full_list:
-        #         if row.get('_id') == second_id:
-        #             s = row.get('name')
-        #             break
-        #     graph_nodes['links'].append(nodes.Link(f, s))
 
     return render(request, 'gui/gui.html', context)
 

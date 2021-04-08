@@ -148,7 +148,17 @@ def reset_graph(graph):
         graph[key].clear()
 
 
-def make_file(graph, is_ping, host1=None, host2=None):
+def clear_output(extra):
+    """
+    Resets the values of the output to empty lists
+    args:
+      extra: The extra list being used
+    """
+    for key in extra.keys():
+        extra[key] = ""
+
+
+def make_file(graph):
     """
     Creates a Python file that represents a network using Mininet
     args:
@@ -156,7 +166,6 @@ def make_file(graph, is_ping, host1=None, host2=None):
     """
 
     path = str(Path.home()) + "/Desktop/"
-
     new_file = open(path + "new_file.py", "w+")
     new_file.write("from mininet.net import Mininet\nfrom mininet.cli import CLI\nnet = Mininet()\n")
 
@@ -167,10 +176,21 @@ def make_file(graph, is_ping, host1=None, host2=None):
 
     for host in graph.get('hosts'):
         new_file.write(host.add_ip_to_file())
-    if is_ping:
-        new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
-    else:
-        new_file.write("\nnet.start()\nnet.iperf([" + host1 + ", " + host2 + "])\nnet.stop()\n")
+
+
+def get_mininet_file():
+    path = str(Path.home()) + "/Desktop/"
+    return open(path + "new_file.py", "a")
+
+
+def add_ping_all():
+    new_file = get_mininet_file()
+    new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
+
+
+def add_iperf(host1, host2):
+    new_file = get_mininet_file()
+    new_file.write("\nnet.start()\nnet.iperf([" + host1 + ", " + host2 + "])\nnet.stop()\n")
 
 
 def run_mininet(extra):
@@ -193,7 +213,7 @@ def run_mininet(extra):
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
 
-    # errors = errors.replace("[sudo] password for mininet: ", "")
+    # errors = errors.replace("[sudo] password for Gatlin: ", "")
     errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
