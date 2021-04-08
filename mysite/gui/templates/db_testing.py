@@ -164,6 +164,18 @@ class App:
         path = str(Path.home()) + "/Desktop/" + str(filename) + ".csv"
         return tx.run("CALL apoc.export.csv.all($path, {})", path=path).single()
 
+    @staticmethod
+    def test(tx):
+        query = ("MATCH (n:example)"
+                 "RETURN n LIMIT 25"
+                 )
+        return tx.run(query)
+
+
+    def test1(self):
+        with self.driver.session() as session:
+            return session.read_transaction(self.test)
+
 
 if __name__ == "__main__":
     # Aura queries use an encrypted connection using the "neo4j+s" URI scheme

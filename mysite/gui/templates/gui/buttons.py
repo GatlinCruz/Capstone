@@ -148,7 +148,7 @@ def reset_graph(graph):
         graph[key].clear()
 
 
-def make_file(graph):
+def make_file(graph, is_ping):
     """
     Creates a Python file that represents a network using Mininet
     args:
@@ -167,8 +167,10 @@ def make_file(graph):
 
     for host in graph.get('hosts'):
         new_file.write(host.add_ip_to_file())
-
-    new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
+    if is_ping:
+        new_file.write("\nnet.start()\nnet.pingAll()\nnet.stop()\n")
+    else:
+        new_file.write("\nnet.start()\nnet.iperf([h1,h2])\nnet.stop()\n")
 
 
 def run_mininet(extra):
@@ -180,7 +182,7 @@ def run_mininet(extra):
 
     path = str(Path.home()) + "/Desktop/"
 
-    sudo_pw = "mininet"
+    sudo_pw = "Mininet"
 
     command = "python2 " + path + "new_file.py"
     command = command.split()
@@ -191,9 +193,11 @@ def run_mininet(extra):
     outs, errors = cmd2.communicate()
     print("outs" + outs + "\nerrors: " + errors + "end")
 
+    #errors = errors.replace("[sudo] password for mininet: ", "")
     errors = errors.replace("[sudo] password for mininet: ", "")
 
     extra['ping'] = errors
+
 
 
 def add_to_database(graph, graph_name):
@@ -207,18 +211,31 @@ def add_to_database(graph, graph_name):
     app = db_testing.App(bolt_url, user, password)
 
     for host in graph.get('hosts'):
-        app.create_node(host.name, graph_name, 'host', host.ip)
+       app.create_node(host.name, graph_name, 'host', host.ip)
+
+
     for switch in graph.get('switches'):
         app.create_node(switch.name, graph_name, 'switch')
     for controller in graph.get('controllers'):
         app.create_node(controller.name, graph_name, 'controller')
     for link in graph.get('links'):
-        app.create_links_db(link.first, link.second, graph_name)
+        print(app.create_links_db(link.first, link.second, graph_name).peek())
 
     app.create_csv(graph_name)
 
     app.close()
 
+
+def save_database():
+    bolt_url = "neo4j://localhost:7687"
+    # The default username for Neo4j
+    user = "neo4j"
+    # The password we use to gain access to the database
+    password = "mininet"
+    # Creating an app object from the db_testing file
+    app = db_testing.App(bolt_url, user, password)
+    temp = app.test1()
+    print(temp.values())
 
 def main():
     """

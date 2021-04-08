@@ -59,7 +59,7 @@ def home(request):
     # This is the logic for when the set button is clicked
     if request.GET.get('setbtn'):
         print(graph_nodes)
-        buttons.make_file(graph_nodes)
+        buttons.make_file(graph_nodes, True)
 
     # This is the logic for when the add host button is clicked
     elif request.GET.get('add_host_btn'):
@@ -138,6 +138,10 @@ def home(request):
                         if item.get('_id') == second_index:
                             second = item.get('name')
                     graph_nodes['links'].append(nodes.Link(first, second))
+
+    elif request.GET.get('iperf_btn'):
+        buttons.make_file(graph_nodes, False)
+        buttons.run_mininet(extra_text)
 
         # f, s = "", ""
         # for item in links_list:
