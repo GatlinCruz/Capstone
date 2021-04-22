@@ -56,7 +56,7 @@ def make_graph(graph):
         nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name)
         print("Added controller " + controller.name)
     for host in graph.get('hosts'):
-        nx_graph.add_node(host.name, type='Host', color='black', name=host.name)
+        nx_graph.add_node(host.name, type='Host', color='red', name=host.name)
         print("Added host " + host.name)
 
     node_x = []
@@ -66,6 +66,7 @@ def make_graph(graph):
     last_switch_x = -1
     switch_y = 5
     cont_y = 8
+    host_counter = 0
     for node in nx_graph.nodes():
 
         if nx_graph.nodes[node]['type'] == 'Switch':
@@ -79,9 +80,13 @@ def make_graph(graph):
             x = last_switch_x
             last_switch_x += 3
         else:
-            start_x += 1
-            y = host_y
+            start_x += len(nx_graph.nodes[node]['name']) * 25
+            if host_counter % 2 == 0:
+                y = host_y
+            else:
+                y = host_y - 2
             x = start_x
+            host_counter += 1
 
         nx_graph.nodes[node]['pos'] = x, y
         x, y = nx_graph.nodes[node]['pos']
@@ -93,8 +98,15 @@ def make_graph(graph):
         mode='markers+text',
         hoverinfo='none',
         marker=dict(
-            size=50,
-            color=[]))
+            size=[],
+            color=[],
+            opacity=1.0,
+            line=dict(
+                color='black',
+                width=2
+            )
+        ),
+    )
 
     edge_x = []
     edge_y = []
@@ -116,10 +128,13 @@ def make_graph(graph):
 
     node_text = []
     node_color = []
+    node_size = []
     for node in nx_graph.nodes():
         node_text.append(nx_graph.nodes[node]['name'])  # type
         node_color.append(nx_graph.nodes[node]['color'])
+        node_size.append(len(nx_graph.nodes[node]['name']) * 25)
     node_trace.marker.color = node_color
+    node_trace.marker.size = node_size
     node_trace.text = node_text
     node_trace.textfont = dict(
         family="monospace",
@@ -175,6 +190,8 @@ def make_file(graph):
         new_file.write("\n")
 
     for host in graph.get('hosts'):
+        # for link in graph.get('links'):
+        #     if host.name == link.first or host.name == link.second:
         new_file.write(host.add_ip_to_file())
 
 
@@ -220,7 +237,6 @@ def run_mininet(extra):
 
 
 def add_to_database(graph, graph_name):
-
     bolt_url = "neo4j://localhost:7687"
     # The default username for Neo4j
     user = "neo4j"
