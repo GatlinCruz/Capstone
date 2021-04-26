@@ -72,11 +72,12 @@ def make_graph(graph):
         if nx_graph.nodes[node]['type'] == 'Switch':
             y = switch_y
             start_x += 1
+            switch_y += 1
             x = start_x
             last_switch_x = x
 
         elif nx_graph.nodes[node]['type'] == 'Controller':
-            y = cont_y
+            y = switch_y + 3  # cont_y
             x = last_switch_x
             last_switch_x += 3
         else:
@@ -95,16 +96,21 @@ def make_graph(graph):
 
     node_trace = go.Scatter(
         x=node_x, y=node_y,
-        mode='markers+text',
-        hoverinfo='none',
+        mode='markers',
+        hoverinfo='text',
         marker=dict(
-            size=[],
+            size=80,
             color=[],
             opacity=1.0,
             line=dict(
                 color='black',
                 width=2
             )
+        ),
+        hoverlabel=dict(
+            bgcolor="white",
+            font_size=24,
+            font_family="monospace",
         ),
     )
 
@@ -128,23 +134,23 @@ def make_graph(graph):
 
     node_text = []
     node_color = []
-    node_size = []
+    # node_size = []
     for node in nx_graph.nodes():
         node_text.append(nx_graph.nodes[node]['name'])  # type
         node_color.append(nx_graph.nodes[node]['color'])
-        node_size.append(len(nx_graph.nodes[node]['name']) * 25)
+        # node_size.append(len(nx_graph.nodes[node]['name']) * 25)
     node_trace.marker.color = node_color
-    node_trace.marker.size = node_size
+    # node_trace.marker.size = node_size
     node_trace.text = node_text
-    node_trace.textfont = dict(
-        family="monospace",
-        size=32,
-        color="white"
-    )
+    # node_trace.textfont = dict(
+    #     family="monospace",
+    #     size=32,
+    #     color="red"
+    # )
 
     fig = go.Figure(data=[edge_trace, node_trace],
                     layout=go.Layout(
-                        showlegend=False,  # hovermode='closest',
+                        showlegend=False, hovermode='closest',
                         margin=dict(b=20, l=5, r=5, t=40),
                         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
