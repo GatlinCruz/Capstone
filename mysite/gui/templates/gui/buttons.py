@@ -1,6 +1,5 @@
 import plotly.graph_objects as go
 import networkx as nx
-import numpy as np
 from pathlib import Path
 import os
 import subprocess
@@ -26,7 +25,6 @@ spec = importlib.util.spec_from_file_location("db_testing", str(BASE_DIR) + "/db
 db_testing = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(db_testing)
 
-np.random.seed(1)
 filename = ''
 
 

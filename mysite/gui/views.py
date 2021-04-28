@@ -4,9 +4,6 @@ from django.shortcuts import render
 from pathlib import Path
 from . import nodes
 import csv
-# from lxml import html
-# import requests
-# from bs4 import BeautifulSoup
 
 """
 This files is a generated file from Django that we use

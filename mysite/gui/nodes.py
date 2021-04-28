@@ -1,3 +1,11 @@
+"""
+This file contains classes for nodes in the network
+__author__ Cade Tipton
+__author__ Gatlin Cruz
+__version__ 4/27/21
+"""
+
+
 class Host:
     def __init__(self, name, ip):
         self.name = name
