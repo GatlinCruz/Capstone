@@ -7,4 +7,21 @@ echo 'deb https://debian.neo4j.com stable latest' | sudo tee -a /etc/apt/sources
 sudo apt-get update
 
 # installing neo4j
-sudo apt-get install neo4j=1:4.2.3
+sudo apt-get -y install neo4j=1:4.2.3
+
+# install python3-venv
+sudo apt-get -y install python3-venv
+
+# installing OpenFlow switch, controller, and Wireshark
+git clone git://github.com/mininet/mininet
+mininet/util/install.sh -fw
+
+# create venv
+python3 -m venv venv
+
+# activate venv
+. venv/bin/activate
+
+# install dependencies
+pip install -r requirements.in
+
