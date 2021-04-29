@@ -22,9 +22,10 @@ sudo cp apoc.conf /etc/neo4j/
 sudo apt-get -y install python3-venv
 
 # installing OpenFlow switch, controller, and Wireshark
-# * may want to change path before doing this
+cd ../
 git clone git://github.com/mininet/mininet
 mininet/util/install.sh -fw
+cd Capstone/
 
 # create venv
 python3 -m venv venv
