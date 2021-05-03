@@ -48,13 +48,13 @@ def make_graph(graph):
 
     # Adds a node for each number of host, switch and controller
     for switch in graph.get('switches'):
-        nx_graph.add_node(switch.name, type='Switch', color='green', name=switch.name)
+        nx_graph.add_node(switch.name, type='Switch', color='green', name=switch.name, ip="")
         print("Added switch " + switch.name)
     for controller in graph.get('controllers'):
-        nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name)
+        nx_graph.add_node(controller.name, type='Controller', color='blue', name=controller.name, ip="")
         print("Added controller " + controller.name)
     for host in graph.get('hosts'):
-        nx_graph.add_node(host.name, type='Host', color='red', name=host.name)
+        nx_graph.add_node(host.name, type='Host', color='red', name=host.name, ip=host.ip)
         print("Added host " + host.name)
 
     node_x = []
@@ -134,7 +134,10 @@ def make_graph(graph):
     node_color = []
     # node_size = []
     for node in nx_graph.nodes():
-        node_text.append(nx_graph.nodes[node]['name'])  # type
+        if nx_graph.nodes[node]['ip'] != "":
+            node_text.append(nx_graph.nodes[node]['name'] + " | " + nx_graph.nodes[node]['ip'])  # type
+        else:
+            node_text.append((nx_graph.nodes[node]['name']))
         node_color.append(nx_graph.nodes[node]['color'])
         # node_size.append(len(nx_graph.nodes[node]['name']) * 25)
     node_trace.marker.color = node_color
@@ -223,8 +226,9 @@ def run_mininet(extra):
 
     path = str(Path.home()) + "/Desktop/"
 
-    sudo_pw = "mininet"
 
+
+    sudo_pw = "Mininet"
     command = "python2 " + path + "new_file.py"
     command = command.split()
 

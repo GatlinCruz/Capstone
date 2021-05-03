@@ -23,6 +23,9 @@ class Host:
     def add_ip_to_file(self):
         return self.name + ".setIP( '" + self.ip + "' )\n"
 
+    def get_ip(self):
+        return self.ip
+
 
 class Switch:
     def __init__(self, name):
