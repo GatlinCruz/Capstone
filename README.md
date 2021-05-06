@@ -2,6 +2,8 @@
 Visualizing and Storing Software Defined Networks  
 Made by Gatlin Cruz and Cade Tipton  
 
+---
+
 # Ways to Install This Project (Choose One)
 - Download the virtual machine image [here](http://www.example.com "Need to find a suitable host...").
 - Manually install the dependencies by entering the commands in `install/install_reqs.txt`
