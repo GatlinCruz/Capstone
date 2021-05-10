@@ -1,5 +1,5 @@
-# MiniGNC (Capstone)  
-Visualizing and Storing Software Defined Networks  
+# MiniGNC:  
+**G**raphical **N**etwork **C**ustomizer for Visualizing and Storing Mininet Networks  
 Made by Gatlin Cruz and Cade Tipton  
 
 ---
