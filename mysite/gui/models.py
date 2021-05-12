@@ -1,3 +1,4 @@
+# Currently not being used 5/12/21
 from django.db import models
 
 # Create your models here.
